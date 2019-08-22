@@ -18,8 +18,8 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 * Download selected episodes from ABC iView (Australia) show pages.
 * Batch downloads.
 * Multiple videos can be downloaded separately (in parallel) or in one process (sequentially).
-* Optional macOS Service for use in web browsers which copies the current URL, switches to MacYTDL and sets name of the video file to be downloaded.
-* All components downloaded and installed by MacYTDL, which can be controlled by the user. Component updates available in the app.
+* Optional macOS Service for use in web browsers which copies the current URL, switches to MacYTDL and pastes URL of video to be downloaded.
+* All components downloaded and/or installed by MacYTDL, which can be controlled by the user. Component updates available in the app.
 * A separate log file is retained for each download enabling problem solving if a download fails.
 * Has a built-in uninstaller which moves all components to Trash.
 
