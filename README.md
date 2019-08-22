@@ -8,10 +8,14 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 * Can download many videos at one time – tested up to 5 concurrent downloads.
 * Works with all sites supported by youtube-dl.
 * Can cancel individual downloads.
-* Options for download file format; remuxing; download a text description of the video; downloading and embedding subtitles, thumbnail images and metadata; downloading or extracting audio-only files.
-* Downloads chosen episodes from ABC iView show pages.
+* Settings for download folder, file format and remuxing formats.
+* Download a text description of the video.
+* Download and embedding subtitles in chosen format.
+* Download and optionally embed thumbnail images and metadata.
+* Download or extract audio-only files in chosen format.
+* Download selected episodes from ABC iView (Australia) show pages.
 * Batch downloads.
-* Multiple shows can be downloaded separately (in parallel) or in one process (sequentially).
+* Multiple videos can be downloaded separately (in parallel) or in one process (sequentially).
 * Optional macOS Service for use in web browsers which copies the current URL, switches to MacYTDL and sets name of the video file to be downloaded.
 * All components downloaded and installed by MacYTDL, which can be controlled by the user. Component updates available in the app.
 * A separate log file is retained for each download enabling problem solving if a download fails.
