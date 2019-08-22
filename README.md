@@ -1,15 +1,12 @@
 # MacYTDL
-A GUI front-end for the youtube-dl video downloader
 
-This is a macOS GUI front end for youtube-dl the cross-platform video downloader. It runs on any Apple Mac with OS X 10.10 or later.
-
-It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. It is code signed and should pass Gatekeeper.
+MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downloader](https://github.com/ytdl-org/youtube-dl). It runs on any Apple Mac with OS X 10.10 or later.  It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed.
 
 ### Features
 
 * Download individual videos and playlists.
 * Can download many videos at one time – tested up to 5 concurrent downloads.
-* Works with YouTube, ITV, many video sites and Australian broadcasters: ABC iView, SBS On Demand, 7Plus, TenPlay, 9Now.
+* Works with all sites supported by youtube-dl.
 * Can cancel individual downloads.
 * Options for download file format; remuxing; download a text description of the video; downloading and embedding subtitles, thumbnail images and metadata; downloading or extracting audio-only files.
 * Downloads chosen episodes from ABC iView show pages.
