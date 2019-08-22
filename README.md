@@ -33,3 +33,15 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 * Provide administrator credentials when asked.
 * Wait.
 * MacYTDL dialog is displayed.
+
+## Acknowledgements
+
+Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed Dialog Toolkit Plus which provides the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
+
+* Adam Albrec (game_creator@hotmail.com), author of PPC Media Centre.
+* Michael Page (http://techion.com.au), author of the Video Hoarder automator script.
+* “kopurando” (https://github.com/kopurando), author of the Virga downloader.
+* “Tombs” (https://forum.videohelp.com/members/235982-Tombs) an active contributor to [Whirlpool](www.whirlpool.net.au) and author of the URLDown Dropper utility for Windows.
+* “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader. Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
+* Frank, Trevor and John, fellow members of the ACT Apple Users Group.
+* MacYTDL users Peter, Mike, “Dantha” and “upekshapriya”.
