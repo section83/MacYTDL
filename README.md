@@ -48,7 +48,7 @@ MacYTDL would be useless without [youtube-dl](https://github.com/ytdl-org/youtub
 
 Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus](https://www.macosxautomation.com/applescript/apps/Script_Libs.html#DialogToolkit) which provides the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
 
-* Adam Albrec (game_creator@hotmail.com), author of PPC Media Centre.
+* Adam Albrec, author of PPC Media Centre.
 * Michael Page (http://techion.com.au), author of the Video Hoarder automator script.
 * “kopurando” (https://github.com/kopurando), author of the Virga downloader.
 * “Tombs” (https://forum.videohelp.com/members/235982-Tombs) an active contributor to [Whirlpool](www.whirlpool.net.au) and author of the URLDown Dropper utility for Windows.
