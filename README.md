@@ -1,11 +1,11 @@
-## MacYTDL
+# MacYTDL
 A GUI front-end for the youtube-dl video downloader
 
 This is a macOS GUI front end for youtube-dl the cross-platform video downloader. It runs on any Apple Mac with OS X 10.10 or later.
 
 It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. It is code signed and should pass Gatekeeper.
 
-# Features
+### Features
 
 • Download individual videos and playlists.
 
@@ -23,7 +23,7 @@ It has been developed in AppleScript. The code is not protected and can be opene
 • A separate log file is retained for each download enabling problem solving if a download fails.
 • Has a built-in uninstaller which moves all components to Trash.
 
-# Instructions
+### Instructions
 
 • Download and open the DMG file.
 • Read the Help file.
