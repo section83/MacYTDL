@@ -2,7 +2,7 @@
 
 MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downloader](https://github.com/ytdl-org/youtube-dl). It runs on any Apple Mac with macOS 10.10 or later.  It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed.
 
-![Image description](link-to-image)
+![Main dailog](https://github.com/section83/MacYTDL/blob/master/images/Main%20-%20v1.10.png)
 
 ### Features
 
