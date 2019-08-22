@@ -39,7 +39,10 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 
 More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/images/Help.pdf).
 
-## Acknowledgements
+### Bugs, problems, questions
+To report bugs, problems etc., get a Github account, click on the "Issues" tab above and open a new issue.
+
+### Acknowledgements
 
 MacYTDL would be useless without [youtube-dl](https://github.com/ytdl-org/youtube-dl).  It is a remarkable, feature rich utility maintained by the most dedicated group of volunteers.
 
