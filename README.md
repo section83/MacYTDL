@@ -34,6 +34,8 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 * Wait.
 * MacYTDL dialog is displayed.
 
+More detail is available in the Help file: https://github.com/section83/MacYTDL/blob/master/images/Help.pdf
+
 ## Acknowledgements
 
 Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus](https://www.macosxautomation.com/applescript/apps/Script_Libs.html#DialogToolkit) which provides the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
