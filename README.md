@@ -41,6 +41,8 @@ More detail is available in [the Help file](https://github.com/section83/MacYTDL
 
 ## Acknowledgements
 
+MacYTDL would be useless without [youtube-dl](https://github.com/ytdl-org/youtube-dl).  It is a remarkable, feature rich utility maintained by the most dedicated group of volunteers.
+
 Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus](https://www.macosxautomation.com/applescript/apps/Script_Libs.html#DialogToolkit) which provides the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
 
 * Adam Albrec (game_creator@hotmail.com), author of PPC Media Centre.
