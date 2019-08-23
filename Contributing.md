@@ -6,7 +6,7 @@ Even better, you could download MacYTDL, make changes using *Script Editor* (tes
 
 MacYTDL has been developed with some guiding principles:
 
-* explain as much as possible in the help document(s) – which are accessible from within the app and outside in the download;
+* explain as much as possible in the help document(s) – which are accessible from within the app and outside in the dmg file;
 * make all code accessible to the user;
 * provide the user with all components not already in macOS – either installing from within the app bundle or downloading from the source – tell user what is being installed beforehand and give option to opt out;
 * don’t reinstall components the user already has;
