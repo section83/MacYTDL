@@ -382,7 +382,7 @@ on main_dialog()
 	if show_settings_choice is not equal to DL_Show_Settings then
 		tell application "System Events"
 			tell property list file MacYTDL_prefs_file
-				set value of property list item "Show_Settings_Before_Download" to show_settings_choice
+				set value of property list item "Show_Settings_before_Download" to show_settings_choice
 			end tell
 		end tell
 	end if
@@ -1330,7 +1330,7 @@ on check_ffmpeg_installed()
 				-- Extract FFmpeg to the usr/local/bin folder
 				set copy_to_path to "/usr/local/bin/"
 				try
-					do shell script "unzip " & downloadsFolder_Path & "/ffmpeg-4.2.zip -d " & copy_to_path with administrator privileges
+					do shell script "unzip " & downloadsFolder_Path & "ffmpeg-" & ffmpeg_version_new & ".zip -d " & copy_to_path with administrator privileges
 					do shell script "chmod a+x /usr/local/bin/ffmpeg" with administrator privileges
 					do shell script "rm " & ffmpeg_download_file
 					set myScriptAsString to "display notification \"Download and install of FFprobe started.  Please wait, it might take a while.\" with title \"MacYTDL\""
@@ -1341,7 +1341,7 @@ on check_ffmpeg_installed()
 					do shell script "curl -L " & ffprobe_site & "ffprobe-" & ffprobe_version_new & ".zip" & " -o " & ffprobe_download_file
 					-- Extract FFprobe to the usr/local/bin folder
 					set copy_to_path to "/usr/local/bin/"
-					do shell script "unzip " & downloadsFolder_Path & "/ffprobe-4.2.zip -d " & copy_to_path with administrator privileges
+					do shell script "unzip " & downloadsFolder_Path & "ffprobe-" & ffprobe_version_new & ".zip -d " & copy_to_path with administrator privileges
 					do shell script "chmod a+x /usr/local/bin/ffprobe" with administrator privileges
 					do shell script "rm " & ffprobe_download_file
 					set ffprobe_version to ffprobe_version_new
@@ -1421,6 +1421,40 @@ on check_ffmpeg()
 		end if
 	end if
 end check_ffmpeg
+
+
+---------------------------------------------------
+--
+-- 		Check for MacYTDL updates
+--
+---------------------------------------------------
+
+-- Handler that checks for new version of MacYTDL and downloads if user agrees - called by utilities
+on check_MacYTDL()
+	-- Get version of MacYTDL available from GitHub
+	set MacYTDL_site_URL to "https://github.com/section83/MacYTDL/releases/"
+	set MacYTDL_releases_page to do shell script "curl " & MacYTDL_site_URL & " | textutil -stdin -stdout -format html -convert txt -encoding UTF-8 "
+	-- Trap case in which user is offline
+	if MacYTDL_releases_page is "" then
+		display dialog "There was a problem with checking for MacYTDL updates. Perhaps you are not connected to the internet or GitHub is currently not available." buttons {"OK"} default button "OK" with title diag_Title with icon note giving up after 600
+		main_dialog()
+	else
+		set MacYTDL_version_start to (offset of "Version" in MacYTDL_releases_page) + 8
+		set MacYTDL_version_end to (offset of " – " in MacYTDL_releases_page) - 1
+		set MacYTDL_version_check to text MacYTDL_version_start thru MacYTDL_version_end of MacYTDL_releases_page
+		if MacYTDL_version_check is not equal to MacYTDL_version then
+			set MacYTDL_update_text to "A new version of MacYTDL is available. You have version " & MacYTDL_version & ". The current version is " & MacYTDL_version_check & return & return & "Would you like to download it now ?"
+			tell me to activate
+			set MacYTDL_install_answ to button returned of (display dialog MacYTDL_update_text buttons {"No", "Yes"} default button "Yes" with title diag_Title with icon note giving up after 600)
+			if MacYTDL_install_answ is "Yes" then
+				set MacYTDL_download_file to quoted form of (downloadsFolder_Path & "/MacYTDL-v" & MacYTDL_version_check & ".dmg")
+				do shell script "curl -L " & MacYTDL_site_URL & "download/v" & MacYTDL_version_check & "/MacYTDL-v" & MacYTDL_version_check & ".dmg -o " & MacYTDL_download_file
+				set alert_text_update_MacYTDL to "A copy of version " & MacYTDL_version_check & " of MacYTDL has been saved into your MacYTDL downloads folder."
+				display dialog alert_text_update_MacYTDL & return & return with title diag_Title buttons {"OK"} default button {"OK"} with icon note giving up after 600
+			end if
+		end if
+	end if
+end check_MacYTDL
 
 
 ---------------------------------------------------
@@ -1656,7 +1690,7 @@ on utilities()
 			do shell script "mv " & POSIX path of ffprobe_file & " ~/.trash/ffprobe" with administrator privileges
 			do shell script "mv " & POSIX path of ffmpeg_file & " ~/.trash/ffmpeg" with administrator privileges
 			do shell script "mv " & POSIX path of MacYTDL_preferences_path & " ~/.trash/MacYTDL"
-			do shell script "mv " & quoted form of (POSIX path of DTP_file) & " ~/.trash/DialogToolkitPlus.scptd" -- Quoted form because of space in "Script Libraries" folder name
+			do shell script "mv " & quoted form of (POSIX path of DTP_file) & " ~/.trash/DialogToolkitMacYTDL.scptd" -- Quoted form because of space in "Script Libraries" folder name
 			set path_to_macytdl_file to quoted form of (POSIX path of (path to me as text))
 			do shell script "mv " & path_to_macytdl_file & " ~/.trash/MacYTDL.app" with administrator privileges
 			-- trap case where user cancels credentials dialog
