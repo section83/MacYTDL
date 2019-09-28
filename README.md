@@ -5,7 +5,7 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 [Download from here](https://github.com/section83/MacYTDL/releases/download/v1.11/MacYTDL-v1.11.dmg).
 
 
-![Main dailog](https://github.com/section83/MacYTDL/blob/master/images/Main%20-%20v1.10.png)
+![Main dailog](https://github.com/section83/MacYTDL/blob/master/images/Main%20-%20v1.11.png)
 
 ### Features
 
