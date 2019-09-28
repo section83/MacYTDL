@@ -6,7 +6,7 @@
 -- Include libraries - needed for Shane Staney's Dialog Toolkit
 use AppleScript version "2.4" -- Yosemite (10.10) or later
 use scripting additions
-use script "DialogToolkitPlus" version "1.1.1" -- Yosemite (10.10) or later
+use script "DialogToolkitMacYTDL" version "1.0" -- Yosemite (10.10) or later
 property parent : AppleScript
 
 -- Set variables and default values
@@ -67,6 +67,7 @@ global DTP_file
 global called_video_URL
 global monitor_dialog_position
 global screen_height
+global window_Position
 global X_position
 global Y_position
 
@@ -131,7 +132,7 @@ set usr_bin_folder to ("/usr/local/bin/" as text)
 set youtubedl_file to ("/usr/local/bin/youtube-dl" as text)
 set home_folder to (path to home folder) as text
 set libraries_folder to home_folder & "Library:Script Libraries"
-set DTP_file to libraries_folder & ":DialogToolkitPlus.scptd"
+set DTP_file to libraries_folder & ":DialogToolkitMacYTDL.scptd"
 
 
 -------------------------------------------------
@@ -153,6 +154,16 @@ end tell
 
 -- Call handler to check whether youtube-dl is installed
 check_ytdl_installed()
+
+
+-- Get size of screen so Main dialog can be positioned somewhat to the left of centre and Monitor dialog positioned better
+tell application "Finder"
+	set screen_bounds to bounds of window of desktop
+	set screen_width to item 3 of screen_bounds as string
+	set screen_height to item 4 of screen_bounds as string
+end tell
+set X_position to (screen_width / 10)
+set Y_position to 50
 
 
 -- Set path for MacYTDL support files - includes Preferences, youtube-dl responses, batch file and browser service - create folder, prefs file and set default prefs + check for and delete old version, if user wishes
@@ -209,6 +220,12 @@ tell application "System Events"
 				my add_v1_10_preference()
 			end if
 		end tell
+		-- Check on need to add new v1.11 item to the prefs file
+		tell property list file MacYTDL_prefs_file
+			if not (exists property list item "final_Position") then
+				my add_v1_11_preference()
+			end if
+		end tell
 	end if
 end tell
 
@@ -252,15 +269,6 @@ tell application "System Events"
 end tell
 
 
--- Check whether current version of DTP is installed - if not, install
-set libraries_folder to POSIX path of (path to home folder) & "Library/Script Libraries/"
-set DTP_version to short version of (info for (libraries_folder & "DialogToolkitPlus.scptd"))
-if DTP_version is not "1.1.1" then
-	set DTP_library_MacYTDL to quoted form of ((POSIX path of (path to me)) & "Contents/Resources/Script Libraries/DialogToolkitPlus.scptd")
-	do shell script "cp -R " & DTP_library_MacYTDL & " " & quoted form of libraries_folder
-end if
-
-
 -- Is Atomic Parsley installed ? [Needed for embedding thmubnails in mp4 and m4a files] - result is displayed in Utilities dialog
 set macYTDL_Atomic_file to ("usr:local:bin:AtomicParsley" as text)
 tell application "System Events"
@@ -274,16 +282,6 @@ end tell
 
 -- Get Python version - is always installed and so don't need to test whether it is there - result shown in Main dailog
 set python_version to do shell script "python -c 'import platform; print(platform.python_version())'"
-
-
--- Get size of screen so Main dialog can be positioned somewhat to the left of centre and Monitor dialog positioned better
-tell application "Finder"
-	set screen_bounds to bounds of window of desktop
-	set screen_width to item 3 of screen_bounds as string
-	set screen_height to item 4 of screen_bounds as string
-end tell
-set X_position to (screen_width / 10)
-set Y_position to 50
 
 
 -- Set path and name for youtube-dl simulated response file - a simulated youtube-dl download puts all its feedback into this file - it's a generic file used for all downloads and so only contains detail on the most recent download - simulation helps find errors and problems before starting the download
@@ -365,7 +363,7 @@ on main_dialog()
 	
 	-- Display the dialog
 	tell me to activate
-	set {button_returned, controls_results} to display enhanced window diag_Title acc view width accViewWidth acc view height theTop acc view controls {theField, theCheckbox_Show_Settings, theCheckbox_SubTitles, theCheckbox_Credentials, theCheckbox_Description, main_thePopUp_FileFormat, main_formatlabel, thePathControl, theCheckbox_AddToBatch, theCheckbox_OpenBatch, pathLabel, diag_settings_prompt, theRule, MacYTDL_icon} buttons theButtons active field theField initial position {X_position, Y_position}
+	set {button_returned, controls_results, finalPosition} to display enhanced window diag_Title acc view width accViewWidth acc view height theTop acc view controls {theField, theCheckbox_Show_Settings, theCheckbox_SubTitles, theCheckbox_Credentials, theCheckbox_Description, main_thePopUp_FileFormat, main_formatlabel, thePathControl, theCheckbox_AddToBatch, theCheckbox_OpenBatch, pathLabel, diag_settings_prompt, theRule, MacYTDL_icon} buttons theButtons active field theField initial position window_Position
 	
 	-- Get control results from dialog
 	set openBatch_chosen to item 10 of controls_results
@@ -379,10 +377,20 @@ on main_dialog()
 	set URL_user_entered_clean to item 1 of controls_results -- Needed to refill the URL box on return from Settings, Help etc.
 	set URL_user_entered to quoted form of item 1 of controls_results -- Quoted form needed in case the URL contains ampersands etc - but really need to get quoted form of each URL when more than one
 	
+	-- Does user wish to see settings before download - save choice
 	if show_settings_choice is not equal to DL_Show_Settings then
 		tell application "System Events"
 			tell property list file MacYTDL_prefs_file
 				set value of property list item "Show_Settings_before_Download" to show_settings_choice
+			end tell
+		end tell
+	end if
+	
+	-- Has user moved the MacYTDL window - if so, save new position
+	if finalPosition is not equal to window_Position then
+		tell application "System Events"
+			tell property list file MacYTDL_prefs_file
+				set value of property list item "final_Position" to finalPosition
 			end tell
 		end tell
 	end if
@@ -606,12 +614,6 @@ on download_video(folder_chosen, remux_format_choice, YTDL_credentials, YTDL_sub
 	
 	-- Indicator which will show whether URL is for an ABC show page - needed for over-writing code below
 	set ABC_show_indicator to "No"
-	
-	--	-- Set up for passing credentials to youtube-dl for simulate and next download
-	--	set YTDL_credentials to ""
-	--	if credentials_choice is true then
-	--		get_YTDL_credentials()
-	--	end if
 	
 	try
 		-- set URL_user_entered_trimmed to items 2 thru -2 of URL_user_entered as string -- youtube-dl fails when there are quotes around multiple URLs - at least it only returns filename(s) for the first URL - unless each is quoted separately ! <= but is this needed given that URL_user_entered_clean is available already ? Seems to work without
@@ -1147,8 +1149,8 @@ on set_settings(URL_user_entered_clean)
 		-- Check for invalid choice of embedding thumbnails in valid file formats (only works for mp3, mp4 and m4a files)
 		-- Can set embed thumbnail to true if Atomic is installed and file format is mp4 OR remux format is mp3 or m4a
 		-- Can set embed thumbnail to false if Atomic is installed and in any other combination if user wants it
-		-- Error message if trying to set embed to treu but file format is wrong
-		-- If Atomic is not installed, settings must be set to false
+		-- Error message if trying to set embed to true but file format is wrong
+		-- If Atomic is not installed, embed thumbnail setting must be set to false
 		if Atomic_is_installed is true then
 			-- Embedding is true and file format is correct - set settings and return to Main
 			if settings_thumb_embed_choice is true and (settings_format_choice is "mp4" or settings_remux_format_choice is "mp3" or settings_remux_format_choice is "m4a" or settings_remux_format_choice is "mp4") then
@@ -1325,7 +1327,7 @@ on check_ffmpeg_installed()
 				set myScriptAsString to "display notification \"Download and install of FFmpeg started.  Please wait, it might take a while.\" with title \"MacYTDL\""
 				do shell script "osascript -e " & quoted form of myScriptAsString & " > /dev/null 2> /dev/null & "
 				delay 2
-				set ffmpeg_download_file to quoted form of (downloadsFolder_Path & "/ffmpeg-" & ffmpeg_version_new & ".zip")
+				set ffmpeg_download_file to quoted form of (downloadsFolder_Path & "ffmpeg-" & ffmpeg_version_new & ".zip")
 				do shell script "curl -L " & ffmpeg_site & "ffmpeg-" & ffmpeg_version_new & ".zip" & " -o " & ffmpeg_download_file
 				-- Extract FFmpeg to the usr/local/bin folder
 				set copy_to_path to "/usr/local/bin/"
@@ -1337,7 +1339,7 @@ on check_ffmpeg_installed()
 					do shell script "osascript -e " & quoted form of myScriptAsString & " > /dev/null 2> /dev/null & "
 					delay 1
 					set ffprobe_version_new to ffmpeg_version_new
-					set ffprobe_download_file to quoted form of (downloadsFolder_Path & "/ffprobe-" & ffprobe_version_new & ".zip")
+					set ffprobe_download_file to quoted form of (downloadsFolder_Path & "ffprobe-" & ffprobe_version_new & ".zip")
 					do shell script "curl -L " & ffprobe_site & "ffprobe-" & ffprobe_version_new & ".zip" & " -o " & ffprobe_download_file
 					-- Extract FFprobe to the usr/local/bin folder
 					set copy_to_path to "/usr/local/bin/"
@@ -1483,6 +1485,7 @@ on read_settings()
 			set DL_verbose to value of property list item "Verbose"
 			set DL_Show_Settings to value of property list item "Show_Settings_before_Download"
 			set DL_Add_Metadata to value of property list item "Add_Metadata"
+			set window_Position to value of property list item "final_Position"
 		end tell
 	end tell
 	return downloadsFolder_Path
@@ -1501,6 +1504,7 @@ on read_settings()
 	return DL_verbose
 	return DL_Add_Metadata
 	return DL_Show_Settings
+	return window_Position
 end read_settings
 
 
@@ -1551,6 +1555,7 @@ on utilities()
 		set {utilities_theCheckbox_Atomic_Install, theTop} to create checkbox "Install Atomic Parsley" left inset accViewInset bottom (theTop + 5) max width 250
 	end if
 	set {utilities_theCheckbox_FFmpeg_Check, theTop} to create checkbox "Check for FFmpeg update" left inset accViewInset bottom (theTop + 5) max width 250
+	set {utilities_theCheckbox_MacYTDL_Check, theTop} to create checkbox "Check for MacYTDL update" left inset accViewInset bottom (theTop + 5) max width 200
 	set {utilities_theCheckbox_YTDL_release, theTop} to create checkbox "Open youtube-dl web page" left inset accViewInset bottom (theTop + 5) max width 200
 	set {utilities_theCheckbox_YTDL_Check, theTop} to create checkbox "Check for youtube-dl update" left inset accViewInset bottom (theTop + 5) max width 250
 	set {utilities_theCheckbox_DL_Open, theTop} to create checkbox "Open download folder" left inset accViewInset bottom (theTop + 5) max width 250
@@ -1560,7 +1565,7 @@ on utilities()
 	set {utilities_instruct, theTop} to create label instructions_text left inset accViewInset + 5 bottom (theTop + 130) max width minWidth - 100 aligns left with multiline
 	set {MacYTDL_icon, theTop} to create image view MacYTDL_custom_icon_file_posix left inset 0 bottom theTop - 50 view width 64 view height 64 scale image scale proportionally
 	set {utilities_prompt, theTop} to create label utilities_diag_prompt left inset 0 bottom (theTop) max width minWidth aligns center aligned with bold type
-	set utilities_allControls to {theUtilitiesRule, utilities_theCheckbox_Atomic_Install, utilities_theCheckbox_Service_Install, utilities_theCheckbox_YTDL_Check, utilities_theCheckbox_YTDL_release, utilities_theCheckbox_FFmpeg_Check, utilities_theCheckbox_DL_Open, utilities_theCheckbox_Logs_Open, utilities_service_status, utilities_atomic_status, MacYTDL_icon, utilities_instruct, utilities_prompt}
+	set utilities_allControls to {theUtilitiesRule, utilities_theCheckbox_Atomic_Install, utilities_theCheckbox_Service_Install, utilities_theCheckbox_FFmpeg_Check, utilities_theCheckbox_MacYTDL_Check, utilities_theCheckbox_YTDL_release, utilities_theCheckbox_YTDL_Check, utilities_theCheckbox_DL_Open, utilities_theCheckbox_Logs_Open, utilities_service_status, utilities_atomic_status, MacYTDL_icon, utilities_instruct, utilities_prompt}
 	
 	-- Make sure MacYTDL is in front and show dialog
 	tell me to activate
@@ -1571,25 +1576,16 @@ on utilities()
 		-- set utilities_choice_1 to item 1 of utilities_controls_results -- <= Missing value [the rule]
 		set utilities_Atomic_choice to item 2 of utilities_controls_results -- <= Install Atomic Parsley choice
 		set utilities_Service_choice to item 3 of utilities_controls_results -- <= Install Service choice
-		set utilities_YTDL_check_choice to item 4 of utilities_controls_results -- <= Check YTDL version choice
-		set utilities_YTDL_release_choice to item 5 of utilities_controls_results -- <= Show YTDL release info page choice
-		set utilities_FFmpeg_check_choice to item 6 of utilities_controls_results -- <= Check FFmpeg version choice
-		set utilities_DL_folder_choice to item 7 of utilities_controls_results -- <= Open download folder choice
-		set utilities_log_folder_choice to item 8 of utilities_controls_results -- <= Open log folder choice
-		--set utilities_Atomic_status_choice_9 to item 9 of utilities_controls_results -- <= Atomic status indicator
-		--set utilities_service_status_choice_9 to item 9 of utilities_controls_results -- <= Service status indicator
-		--set utilities_choice_10 to item 10 of utilities_controls_results -- <= Missing value [the icon]
-		--set utilities_choice_11 to item 11 of utilities_controls_results -- <= Contains the "Instructions" text
-		
-		-- Open downloads folder
-		if utilities_DL_folder_choice is true then
-			-- Open the downloads folder in a Finder window positioned away from the MacYTDL main dialog which will re-appear - Assistive Access not needed as Finder windows have position properties
-			tell application "Finder"
-				activate
-				open (downloadsFolder_Path as POSIX file) -- <= Had to read prefs again to get this working - something to do with this path in Main Dialog
-				set the position of the front Finder window to {100, 100} -- <= This DOES work but is ugly - it opens the window then moves it to a location which doesn't overlap Main Dialog
-			end tell
-		end if
+		set utilities_FFmpeg_check_choice to item 4 of utilities_controls_results -- <= Check FFmpeg version choice
+		set utilities_MacYTDL_check_choice to item 5 of utilities_controls_results -- <= Check MacYTDL version choice
+		set utilities_YTDL_release_choice to item 6 of utilities_controls_results -- <= Show YTDL release info page choice
+		set utilities_YTDL_check_choice to item 7 of utilities_controls_results -- <= Check YTDL version choice
+		set utilities_DL_folder_choice to item 8 of utilities_controls_results -- <= Open download folder choice
+		set utilities_log_folder_choice to item 9 of utilities_controls_results -- <= Open log folder choice
+		--set utilities_Atomic_status_choice_10 to item 10 of utilities_controls_results -- <= Atomic status indicator
+		--set utilities_service_status_choice_11 to item 11 of utilities_controls_results -- <= Service status indicator
+		--set utilities_choice_12 to item 12 of utilities_controls_results -- <= Missing value [the icon]
+		--set utilities_choice_13 to item 13 of utilities_controls_results -- <= Contains the "Instructions" text
 		
 		-- Open log folder
 		if utilities_log_folder_choice is true then
@@ -1598,6 +1594,16 @@ on utilities()
 				activate
 				open (MacYTDL_preferences_path as POSIX file)
 				set the position of the front Finder window to {200, 200}
+			end tell
+		end if
+		
+		-- Open downloads folder
+		if utilities_DL_folder_choice is true then
+			-- Open the downloads folder in a Finder window positioned away from the MacYTDL main dialog which will re-appear - Assistive Access not needed as Finder windows have position properties
+			tell application "Finder"
+				activate
+				open (downloadsFolder_Path as POSIX file) -- <= Had to read prefs again to get this working - something to do with this path in Main Dialog
+				set the position of the front Finder window to {100, 100} -- <= This DOES work but is ugly - it opens the window then moves it to a location which doesn't overlap Main Dialog
 			end tell
 		end if
 		
@@ -1621,6 +1627,11 @@ on utilities()
 			check_ytdl()
 			tell me to activate
 			display dialog alert_text_ytdl & return & return with title diag_Title buttons {"OK"} default button {"OK"} with icon note giving up after 600
+		end if
+		
+		-- Check for MacYTDL update
+		if utilities_MacYTDL_check_choice is true then
+			check_MacYTDL()
 		end if
 		
 		-- Install Atomic Parsely
@@ -1720,7 +1731,7 @@ end utilities
 on show_about()
 	-- Set variables for the settings dialog	
 	set about_text_1 to "MacYTDL is a simple AppleScript program for downloading videos from various web sites.  It uses the youtube-dl Python script as the download engine."
-	set about_text_2 to "Please post any questions or suggestions to forum.videohelp.com/threads/384566-youtube-dl-GUI-for-Apple-Macs" & return & return & "Written by © Vincentius, " & MacYTDL_date & ".  With thanks to Shane Stanley, Adam Albrec, kopurando and Michael Page."
+	set about_text_2 to "Please post any questions or suggestions to github.com/section83/MacYTDL/issues" & return & return & "Written by © Vincentius, " & MacYTDL_date & ".  With thanks to Shane Stanley, Adam Albrec, kopurando and Michael Page."
 	set about_diag_prompt to "About MacYTDL"
 	set accViewWidth to 400
 	set accViewInset to 0
@@ -1744,7 +1755,7 @@ on show_about()
 	
 	-- Open MacYTDL release page (in default web browser) to manually check version
 	if about_button_returned is "Visit Site" then
-		open location "https://forum.videohelp.com/threads/384566-youtube-dl-GUI-for-Apple-Macs"
+		open location "https://github.com/section83/MacYTDL/"
 	end if
 	
 	-- Open email message to author
@@ -1799,11 +1810,11 @@ on get_YTDL_credentials()
 end get_YTDL_credentials
 
 
-----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 --
--- 	Handlers to update format of Preferences file for v1.2, v1.4 and v1.5
+-- 	Handlers to update format of Preferences file for v1.2, v1.4, v1.5, v1.10 and 1.11
 --
-----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 
 -- Handler to add new v1.2 items to preferences file
 on add_v1_2_preferences()
@@ -1857,6 +1868,21 @@ on add_v1_10_preference()
 		end tell
 	end tell
 end add_v1_10_preference
+
+on add_v1_11_preference()
+	tell application "System Events"
+		tell property list file MacYTDL_prefs_file
+			make new property list item at end with properties {kind:list, name:"final_Position", value:{X_position, Y_position}}
+		end tell
+	end tell
+end add_v1_11_preference
+
+
+-----------------------------------------------------------------------------------------
+--
+-- 	 Remove "Resolution" setting from prefs file - called by add_v1_4_preferences
+--
+-----------------------------------------------------------------------------------------
 
 -- Handler to delete lines from text read in from Preferences file - this seems the only way to remove redundant "Resolution" preference from the file
 on deleteLinesFromText(theText, deletePhrase)
@@ -1943,6 +1969,7 @@ on set_preferences()
 			make new property list item at end with properties {kind:boolean, name:"Add_Metadata", value:false}
 			make new property list item at end with properties {kind:boolean, name:"Verbose", value:false}
 			make new property list item at end with properties {kind:boolean, name:"Show_Settings_before_Download", value:false}
+			make new property list item at end with properties {kind:list, name:"final_Position", value:{X_position, Y_position}}
 		end tell
 	end tell
 end set_preferences
@@ -1954,7 +1981,7 @@ end set_preferences
 --
 ---------------------------------------------------
 
--- Handler to install Shane Stanley's Dialog Toolkit Plus in user's Library
+-- Handler to install Shane Stanley's Dialog Toolkit Plus in user's Library - as altered for MacYTDL
 -- Needed as Monitor dialog (running from osascript) cannot see locations inside this app
 on install_DTP()
 	set libraries_folder to quoted form of (POSIX path of (path to home folder) & "Library/Script Libraries/")
@@ -1963,8 +1990,16 @@ on install_DTP()
 			tell current application to do shell script "mkdir -p " & libraries_folder
 		end if
 	end tell
-	set DTP_library_MacYTDL to quoted form of ((POSIX path of (path to me)) & "Contents/Resources/Script Libraries/DialogToolkitPlus.scptd")
+	set DTP_library_MacYTDL to quoted form of ((POSIX path of (path to me)) & "Contents/Resources/Script Libraries/DialogToolkitMacYTDL.scptd")
 	do shell script "cp -R " & DTP_library_MacYTDL & " " & libraries_folder
+	-- If old DTP library is present, delete it
+	set libraries_folder_nonposix to text 3 thru -2 of (POSIX path of libraries_folder)
+	set DTP_old_file to libraries_folder_nonposix & "DialogToolkitPlus.scptd"
+	tell application "System Events"
+		if file DTP_old_file exists then
+			delete file DTP_old_file
+		end if
+	end tell
 end install_DTP
 
 
@@ -2014,11 +2049,11 @@ end install_MacYTDLservice
 
 
 
-----------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 --
--- 	Check version of MacYTDL Service - update if old version
+-- 	Check version of MacYTDL Service - update if old version - called when starting MacYTDL
 --
-----------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 
 -- Handler to check whether Serivce is installed and if so, which version - if old version, update to new
 on update_MacYTDLservice()
@@ -2086,7 +2121,7 @@ end ask_user_install_Atomic
 
 ---------------------------------------------------
 --
--- 			Install Atomic Parsley
+-- 	Install Atomic Parsley
 --
 ---------------------------------------------------
 
@@ -2107,7 +2142,7 @@ end install_MacYTDLatomic
 
 ---------------------------------------------------
 --
--- 			Remove Atomic Parsley
+-- 	Remove Atomic Parsley
 --
 ---------------------------------------------------
 
@@ -2447,21 +2482,6 @@ end tally_batch
 -----------------------------------------------------------------------------
 -- Handler to download selection of URLs in Batch file - forms and calls youtube-dl separately from the download_video handler
 on download_batch(folder_chosen, remux_format_choice, YTDL_subtitles, YTDL_STEmbed, YTDL_credentials, YTDL_format, YTDL_remux_format, YTDL_Remux_original, YTDL_description, YTDL_audio_only, YTDL_over_writes, YTDL_Thumbnail_Write, YTDL_Thumbnail_Embed, YTDL_metadata, YTDL_verbose)
-	
-	-- This code not yet needed but, might prove useful if decide to save and get show names
-	--	try
-	--		set batch_file_ref to missing value
-	--		set batch_file_ref to open for access file batch_file
-	--		set batch_file_contents to read batch_file_ref from 1
-	--		close access batch_file_ref
-	--	on error batch_errMsg
-	--		display dialog "There was an error: " & batch_errMsg & "batch_file: " & batch_file
-	--		close access batch_file_ref
-	--		main_dialog()
-	--	end try
-	--	set URL_user_entered_clean to replace_chars(batch_file_contents, return, " ")
-	--	
-	--	display dialog batch_file_contents
 	
 	-- Check that there is a batch file
 	tell application "System Events"
