@@ -7,7 +7,7 @@
 -- Include libraries - needed for Shane Staney's Dialog Toolkit
 use AppleScript version "2.4" -- Yosemite (10.10) or later
 use scripting additions
-use script "DialogToolkitPlus" version "1.1.1" -- Yosemite (10.10) or later
+use script "DialogToolkitMacYTDL" version "1.0" -- Yosemite (10.10) or later
 
 -- This script provides a download Monitor for each video file download requested by user of Main Dialog
 
@@ -99,7 +99,6 @@ on run {downloadsFolder_Path_monitor, MacYTDL_preferences_path_monitor, ytdl_opt
 	if ytdl_options_monitor contains "description" then
 		set DL_description_monitor to "Yes"
 	end if
-	
 	set path_to_monitor to (path to me) as string
 	set path_to_scripts to text 1 thru -13 of path_to_monitor
 	set myAdviserScriptAsString to quoted form of POSIX path of (path_to_scripts & "adviser.scpt")
