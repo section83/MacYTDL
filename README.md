@@ -1,6 +1,6 @@
 # MacYTDL
 
-MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downloader](https://github.com/ytdl-org/youtube-dl). It runs on any Apple Mac with macOS 10.10 or later.  It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed.
+MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downloader](https://github.com/ytdl-org/youtube-dl). It runs on any Apple Mac with macOS 10.10 or later. It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed.
 
 [Download from here](https://github.com/section83/MacYTDL/releases/download/v1.11/MacYTDL-v1.11.dmg).
 
@@ -44,7 +44,7 @@ To report bugs, problems etc., get a Github account, click on the "Issues" tab a
 
 ### Acknowledgements
 
-MacYTDL would be useless without [youtube-dl](https://github.com/ytdl-org/youtube-dl).  It is a remarkable, feature rich utility maintained by the most dedicated group of volunteers.
+MacYTDL would be useless without [youtube-dl](https://github.com/ytdl-org/youtube-dl). It is a remarkable, feature rich utility maintained by the most dedicated group of volunteers.
 
 Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus](https://www.macosxautomation.com/applescript/apps/Script_Libs.html#DialogToolkit) which provides the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
 
@@ -55,3 +55,9 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 * “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader. Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
 * Frank, Trevor and John, fellow members of the ACT Apple Users Group.
 * MacYTDL users Ted, Peter, Mike, “Dantha” and “upekshapriya”.
+
+### MacYTDL is free but...
+
+MacYTDL is a retirement project for me and will always be free. But if you use MacYTDL to download files regularly please consider making a donation to the youtube-dl project. Their donation page is here:
+
+https://ytdl-org.github.io/youtube-dl/donations.html
