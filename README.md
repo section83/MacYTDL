@@ -28,7 +28,7 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 
 ### How to install
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/v1.11/MacYTDL-v1.11.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/v1.12/MacYTDL-v1.12.dmg).
 * Read the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Run MacYTDL.
@@ -37,7 +37,7 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 * Wait.
 * MacYTDL dialog is displayed.
 
-More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/images/Help.pdf).
+More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/images/Help-v1.12-small.pdf).
 
 ### Bugs, problems, questions
 To report bugs, problems etc., get a Github account, click on the "Issues" tab above and open a new issue.
