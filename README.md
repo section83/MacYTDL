@@ -1,11 +1,11 @@
 # MacYTDL
 
-MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downloader](https://github.com/ytdl-org/youtube-dl). It runs on any Apple Mac with macOS 10.10 or later. It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
+MacYTDL is a macOS GUI front end for [youtube-dl, the cross-platform video downloader](https://github.com/ytdl-org/youtube-dl). It runs on any Apple Mac with macOS 10.10 or later. It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.12.1/MacYTDL-v1.12.1.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.13/MacYTDL-v1.13.dmg).
 
 
-![Main dailog](https://github.com/section83/MacYTDL/blob/master/images/Main%20-%20v1.12.1.png)
+![Main dailog](https://github.com/section83/MacYTDL/blob/master/images/Main%20-%20v1.13.png)
 
 ### Features
 
@@ -28,7 +28,7 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 
 ### How to install
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.12.1/MacYTDL-v1.12.1.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.13/MacYTDL-v1.13.dmg).
 * Read the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Run MacYTDL.
@@ -37,7 +37,7 @@ MacYTDL is a macOS GUI front end for [youtube-dl the cross-platform video downlo
 * Wait.
 * MacYTDL dialog is displayed.
 
-More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/Components/Help-v1.12.1-small.pdf).
+More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/images/Help-v1.13-small.pdf).
 
 ### Bugs, problems, questions
 To report bugs, problems etc., get a Github account, click on the "Issues" tab above and open a new issue.
@@ -58,6 +58,6 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 
 ### MacYTDL is free but...
 
-MacYTDL is a retirement project for me and will always be free. But if you use MacYTDL to download files regularly please consider making a donation to the youtube-dl project. Their donation page is here:
+MacYTDL is a retirement project for me and will always be free. But if you use MacYTDL to download files please consider making a donation to the youtube-dl project. Their donation page is here:
 
 https://ytdl-org.github.io/youtube-dl/donations.html
