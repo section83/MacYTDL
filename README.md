@@ -25,6 +25,7 @@ MacYTDL is a macOS GUI front end for [youtube-dl, the cross-platform video downl
 * A separate log file is retained for each download enabling problem solving if a download fails.
 * Has a built-in uninstaller which moves all components to Trash.
 * Includes a range of simple utilities.
+* Is 64-bit and so runs in macOS 10.15 Catalina.
 
 ### How to install
 
