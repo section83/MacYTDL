@@ -54,7 +54,7 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 * “Tombs” (https://forum.videohelp.com/members/235982-Tombs) an active contributor to [Whirlpool](www.whirlpool.net.au) and author of the URLDown Dropper utility for Windows.
 * “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader. Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
 * Frank, Trevor and John, fellow members of the ACT Apple Users Group.
-* MacYTDL users bovirus, defcon5at, andyrb412, CdrSpock, roest01, 11lucasarr11, Ted, Peter, Mike, Dantha and upekshapriya.
+* MacYTDL users pedrocadiz13, bovirus, defcon5at, andyrb412, CdrSpock, roest01, 11lucasarr11, Tobias, Ted, tigrr, meiwechner, janvdvelde, Peter, Mike, Dantha, EuronymousDeadOhlin, Andy and upekshapriya.
 
 ### MacYTDL is free but...
 
