@@ -59,6 +59,6 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 * Frank, Trevor, Santo and John, fellow members of the ACT Apple Users Group.
 * MacYTDL users MalEbenSo, pedrocadiz13, bovirus, defcon5at, andyrb412, 11lucasarr11, CdrSpock, roest01, Tobias, Ted, tigrr, meiwechner, janvdvelde, Peter, Mike, Dantha, EuronymousDeadOhlin and upekshapriya.
 
-### MacYTDL is free but...
+### MacYTDL is free
 
-MacYTDL is a retirement project for me and will always be free.
+MacYTDL is a retirement project for me and will always be free.  But, if you use other shareware or open source software consider making a donation to the developers – let them know they are appreciated.
