@@ -2,12 +2,10 @@
 
 MacYTDL is a macOS GUI front end for [youtube-dl, the cross-platform video downloader](https://github.com/ytdl-org/youtube-dl). It runs on any Apple Mac with macOS 10.10 or later. It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
 
-***This is a beta test release. It has the first attempt at implementing localisation. There may be errors and bugs. Please report any language errors, bugs or questions here on GitHub or send a message to macytdl@gmail.com.***
-
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.15.b.1/MacYTDL-v1.15.b.1.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.15/MacYTDL-v1.15.dmg).
 
 
-![Main dailog](https://github.com/section83/MacYTDL/blob/master/images/Main%20-%20v1.15.b.1.png)
+![Main dailog](https://github.com/section83/MacYTDL/blob/master/images/Main%20-%20v1.15.png)
 
 ### Features
 
@@ -28,11 +26,11 @@ MacYTDL is a macOS GUI front end for [youtube-dl, the cross-platform video downl
 * A separate log file is retained for each download enabling problem solving if a download fails.
 * Has a built-in uninstaller which moves all components to Trash.
 * Includes a range of simple utilities.
-* Is 64-bit and so runs in macOS 10.15 Catalina.
+* Is 64-bit and so runs in macOS 10.15 Catalina and Big Sur.
 
 ### How to install
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.15.b.1/MacYTDL-v1.15.b.1.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.15/MacYTDL-v1.15.dmg).
 * Read the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Run MacYTDL.
@@ -41,7 +39,7 @@ MacYTDL is a macOS GUI front end for [youtube-dl, the cross-platform video downl
 * Wait.
 * MacYTDL dialog is displayed.
 
-More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/images/Help-small-v1.15.b.1.pdf).
+More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/images/Help-small-v1.15.pdf).
 
 ### Bugs, problems, questions
 To report bugs, problems etc., get a Github account, click on the "Issues" tab above and open a new issue.
@@ -50,18 +48,17 @@ To report bugs, problems etc., get a Github account, click on the "Issues" tab a
 
 MacYTDL would be useless without [youtube-dl](https://github.com/ytdl-org/youtube-dl). It is a remarkable, feature rich utility maintained by the most dedicated group of volunteers.
 
-Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus](https://www.macosxautomation.com/applescript/apps/Script_Libs.html#DialogToolkit) which provides the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
+Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus](https://latenightsw.com/support/freeware/) which provides the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
 
 * Adam Albrec, author of PPC Media Centre.
 * Michael Page (http://techion.com.au), author of the Video Hoarder automator script.
 * “kopurando” (https://github.com/kopurando), author of the Virga downloader.
 * “Tombs” (https://forum.videohelp.com/members/235982-Tombs) an active contributor to [Whirlpool](www.whirlpool.net.au) and author of the URLDown Dropper utility for Windows.
-* “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader. Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
-* Frank, Trevor and John, fellow members of the ACT Apple Users Group.
-* MacYTDL users pedrocadiz13, bovirus, defcon5at, andyrb412, 11lucasarr11, CdrSpock, roest01, Tobias, Ted, tigrr, meiwechner, janvdvelde, Peter, Mike, Dantha, EuronymousDeadOhlin and upekshapriya.
+* “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader.
+* Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
+* Frank, Trevor, Santo and John, fellow members of the ACT Apple Users Group.
+* MacYTDL users MalEbenSo, pedrocadiz13, bovirus, defcon5at, andyrb412, 11lucasarr11, CdrSpock, roest01, Tobias, Ted, tigrr, meiwechner, janvdvelde, Peter, Mike, Dantha, EuronymousDeadOhlin and upekshapriya.
 
 ### MacYTDL is free but...
 
-MacYTDL is a retirement project for me and will always be free. But if you use MacYTDL to download files please consider making a donation to the youtube-dl project. Their donation page is here:
-
-https://ytdl-org.github.io/youtube-dl/donations.html
+MacYTDL is a retirement project for me and will always be free.
