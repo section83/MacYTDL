@@ -16,7 +16,7 @@ MacYTDL is a macOS GUI front end for [youtube-dl, the cross-platform video downl
 * Settings for level of youtube-dl feedback, download folder, file format and remuxing format.
 * Batch downloads.
 * Download a text description of the video.
-* Localisation – currently Spanish, Italian and German are available.
+* Localisation – currently Spanish, Italian and German are available (switching languages is supported in macOS 10.15 and 11).
 * Download and embed subtitles in chosen format and language including auto-generated captions from YouTube.
 * Download and optionally embed thumbnail images and metadata.
 * Download or extract audio-only files in chosen format.
