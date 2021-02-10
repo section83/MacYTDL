@@ -2,7 +2,7 @@
 
 MacYTDL is a macOS GUI front end for [youtube-dl, the cross-platform video downloader](https://github.com/ytdl-org/youtube-dl). It runs on any Apple Mac with macOS 10.10 or later. It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.16/MacYTDL-v1.16.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.16.1/MacYTDL.zip).
 
 
 ![Main dailog](https://github.com/section83/MacYTDL/blob/master/images/Main%20-%20v1.16.png)
@@ -30,7 +30,7 @@ MacYTDL is a macOS GUI front end for [youtube-dl, the cross-platform video downl
 
 ### How to install
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.16/MacYTDL-v1.16.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.16.1/MacYTDL.zip).
 * Browse the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Run MacYTDL.
@@ -57,7 +57,7 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 * “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader.
 * Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
 * Frank, Trevor, Santo and John, fellow members of the ACT Apple Users Group.
-* MacYTDL users martinsstuff, michel-GH, MalEbenSo, pedrocadiz13, bovirus, defcon5at, BigJoe309, andyrb412, 11lucasarr11, CdrSpock, roest01, Tobias, Ted, tigrr, meiwechner, janvdvelde, Peter, Mike, Dantha, EuronymousDeadOhlin and upekshapriya.
+* MacYTDL users knitty-cat, martinsstuff, michel-GH, MalEbenSo, pedrocadiz13, bovirus, defcon5at, BigJoe309, andyrb412, 11lucasarr11, CdrSpock, roest01, Tobias, Ted, tigrr, meiwechner, janvdvelde, Peter, Mike, Dantha, EuronymousDeadOhlin and upekshapriya.
 
 ### MacYTDL is free
 
