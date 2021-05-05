@@ -70,6 +70,8 @@ global DL_Limit_Rate_Value
 global DL_Show_Settings
 global DL_Use_Proxy
 global DL_Proxy_URL
+global DL_Output_Template_Override
+global DL_Output_Template
 global MacYTDL_version
 global MacYTDL_copyright
 global MacYTDL_date
@@ -356,6 +358,13 @@ tell application "System Events"
 			run_Utilities_handlers's add_v1_17_preference(MacYTDL_prefs_file)
 		end if
 	end tell
+	
+	-- Check on need to add new v1.17.1 output template setttings to the prefs file
+	tell property list file MacYTDL_prefs_file
+		if not (exists property list item "Override_default_output_template") then
+			run_Utilities_handlers's add_v1_17_1_preference(MacYTDL_prefs_file)
+		end if
+	end tell
 end tell
 
 -- Check if DTP exists - install if not
@@ -439,7 +448,6 @@ set myNum to 0
 main_dialog()
 
 on main_dialog()
-	
 	--*****************  This is for testing variables as they come into and back to Main - beware some of these are not defined on all circumstances
 	
 	-- display dialog "video_URL: " & return & return & "called_video_URL: " & called_video_URL & return & return & "URL_user_entered: " & URL_user_entered & return & return & "URL_user_entered_clean: " & URL_user_entered_clean & return & return & "default_contents_text: "
@@ -490,6 +498,7 @@ on main_dialog()
 	set {theCheckbox_Show_Settings, theTop} to create checkbox theCheckbox_Show_SettingsLabel left inset accViewInset + 50 bottom (theTop + 10) max width 250 initial state DL_Show_Settings
 	set theCheckbox_SubTitlesLabel to localized string "Subtitles for this download"
 	set {theCheckbox_SubTitles, theTop} to create checkbox theCheckbox_SubTitlesLabel left inset accViewInset bottom (theTop + 15) max width 250 initial state DL_subtitles
+	
 	set theCheckbox_CredentialsLabel to localized string "Credentials for download"
 	set {theCheckbox_Credentials, theTop} to create checkbox theCheckbox_CredentialsLabel left inset accViewInset bottom (theTop + 5) max width 200 without initial state
 	set theCheckbox_DescriptionLabel to localized string "Download description"
@@ -724,26 +733,32 @@ on download_video(folder_chosen, remux_format_choice, subtitles_choice, YTDL_cre
 	-- 9Now is a detective story to find the show name - have to parse the URL
 	-- 7Plus is also a detective story to find the show name - but, the extractor now finds the series name in the web page title
 	-- 7Plus can also have extractor problems - shows can be AES-SAMPLE encrypted etc.  At present DRM issues cannot be solved.
-	
-	if URL_user_entered contains "ABC" then
-		set YTDL_output_template to " -o '%(series)s-%(title)s.%(ext)s'"
-		
-	else if URL_user_entered contains "ITV" then
-		set YTDL_output_template to " -o '%(series)s-%(season)s-%(title)s.%(ext)s'"
-		
-	else if URL_user_entered contains "9Now" then
-		set URL_user_entered_sans_q to text 1 thru -2 of URL_user_entered
-		set AppleScript's text item delimiters to "/"
-		set NineNow_URL_items to every text item of URL_user_entered_sans_q
-		set AppleScript's text item delimiters to ""
-		set NineNow_show_old to text 1 thru end of item 4 of NineNow_URL_items
-		set NineNow_show_new to run_Utilities_handlers's replace_chars(NineNow_show_old, "-", "_")
-		set YTDL_output_template to " -o '" & NineNow_show_new & "-%(title)s.%(ext)s'"
-	else if URL_user_entered contains "7Plus" then
-		set YTDL_output_template to " -o '%(series)s-%(title)s.%(ext)s'"
-	else
-		-- Standard output template for all other sites
-		set YTDL_output_template to " -o '%(title)s.%(ext)s'"
+	-- start by setting the YTDL_output_template to the default
+	set YTDL_output_template to " -o '%(title)s.%(ext)s'"
+	if not DL_Output_Template is "" then
+		-- the User has request a diffrent default output template
+		set YTDL_output_template to " -o '" & DL_Output_Template & "'"
+	end if
+	-- If the user choose to override the defualt tamplates then don't change his output template
+	if not DL_Output_Template_Override then
+		-- otherwise we'll scan the provided URL and if we find a site to match it we'll choose a sensible default
+		if URL_user_entered contains "ABC" then
+			set YTDL_output_template to " -o '%(series)s-%(title)s.%(ext)s'"
+			
+		else if URL_user_entered contains "ITV" then
+			set YTDL_output_template to " -o '%(series)s-%(season)s-%(title)s.%(ext)s'"
+			
+		else if URL_user_entered contains "9Now" then
+			set URL_user_entered_sans_q to text 1 thru -2 of URL_user_entered
+			set AppleScript's text item delimiters to "/"
+			set NineNow_URL_items to every text item of URL_user_entered_sans_q
+			set AppleScript's text item delimiters to ""
+			set NineNow_show_old to text 1 thru end of item 4 of NineNow_URL_items
+			set NineNow_show_new to run_Utilities_handlers's replace_chars(NineNow_show_old, "-", "_")
+			set YTDL_output_template to " -o '" & NineNow_show_new & "-%(title)s.%(ext)s'"
+		else if URL_user_entered contains "7Plus" then
+			set YTDL_output_template to " -o '%(series)s-%(title)s.%(ext)s'"
+		end if
 	end if
 	
 	-- Fifth, use simulated YTDL run to look for errors reported back by YTDL, such as invalid URL which would otherwise stop MacYTDL
@@ -1289,7 +1304,7 @@ on set_File_Names(YTDL_simulate_response)
 	set AppleScript's text item delimiters to " "
 	set number_of_URLs to number of text items in URL_user_entered
 	set AppleScript's text item delimiters to ""
-	
+
 	-- Get date and time so it can be added to response file name
 	set download_date_time to get_Date_Time()
 	
@@ -1637,7 +1652,7 @@ end get_Date_Time
 on set_settings(URL_user_entered_clean)
 	--read_settings()
 	run_Utilities_handlers's read_settings(MacYTDL_prefs_file)
-	
+
 	-- Set variables for the settings dialog	
 	set theSettingsDiagPromptLabel to localized string "Settings"
 	set settings_diag_prompt to theSettingsDiagPromptLabel
@@ -1651,6 +1666,10 @@ on set_settings(URL_user_entered_clean)
 	set {theSettingsRule, theTop} to create rule 10 rule width accViewWidth
 	set theCheckboxShowSettingsLabel to localized string "Show settings before download"
 	set {settings_theCheckbox_Show_Settings, theTop} to create checkbox theCheckboxShowSettingsLabel left inset 70 bottom (theTop + 10) max width 200 initial state DL_Show_Settings
+	set theFieldOutputTemplateOverrideLabel to localized string "Override the default output template"
+	set {settings_theCheckbox_TemplateOverride, theTop} to create checkbox theFieldOutputTemplateOverrideLabel left inset 70 bottom (theTop + 10) max width 200 initial state DL_Output_Template_Override
+	set theFieldOutputTemplateLabel to localized string "File name template"
+	set {settings_theField_TemplateOverride, theTop} to create field DL_Output_Template left inset 70 bottom (theTop + 10) field width 200 placeholder text theFieldOutputTemplateLabel
 	set theFieldProxyURLPlaceholderLabel to localized string "No URL set"
 	set {settings_theField_ProxyURL, theTop} to create field DL_Proxy_URL left inset 175 bottom (theTop + 5) field width 250 placeholder text theFieldProxyURLPlaceholderLabel
 	set theCheckboxUseProxyLabel to localized string "Use proxy"
@@ -1696,7 +1715,7 @@ on set_settings(URL_user_entered_clean)
 	set settings_theCheckbox_DescriptionLabel to localized string theCheckboxDLDescriptionLabel
 	set {settings_theCheckbox_Description, theTop} to create checkbox settings_theCheckbox_DescriptionLabel left inset 70 bottom (theTop + 5) max width 250 initial state DL_description
 	set theLabeledPopUpFileFormatLabel to localized string "File format:"
-	if diag_Title contains "Versi—n" then
+	if diag_Title contains "Versiï¿½n" then
 		-- Reposition file format popup if language is Spanish
 		set fileFormat_popup_left_value to 205
 	else
@@ -1708,8 +1727,8 @@ on set_settings(URL_user_entered_clean)
 	set {settings_thePathControl, settings_pathLabel, theTop} to create labeled path control (POSIX path of downloadsFolder_Path) left inset 70 bottom (theTop + 10) control width 200 label text theLabelPathChangeDLFolderLabel with pops up
 	set {MacYTDL_icon, theTop} to create image view MacYTDL_custom_icon_file_posix left inset 0 bottom theTop - 50 view width 64 view height 64 scale image scale proportionally
 	set {settings_prompt, theTop} to create label settings_diag_prompt left inset 0 bottom (theTop) max width accViewWidth aligns center aligned with bold type
-	set settings_allControls to {theSettingsRule, settings_theCheckbox_Show_Settings, settings_theCheckbox_Limit_Rate, settings_theField_LimitRateValue, settings_theCheckBox_Use_Proxy, settings_theField_ProxyURL, settings_theCheckbox_Original, settings_thePopUp_RemuxFormat, settings_remuxlabel, settings_theCheckbox_Metadata, settings_theCheckbox_Verbose, settings_theCheckbox_ThumbEmbed, settings_theCheckbox_ThumbWrite, settings_theCheckbox_AutoSubTitles, settings_thePopUp_SubTitlesFormat, settings_STFormatlabel, settings_theField_STLanguage, settings_language_label, settings_theCheckbox_STEmbed, settings_theCheckbox_SubTitles, settings_theCheckbox_Auto_YTDL_Check, settings_theCheckbox_AudioOnly, settings_thePopup_AudioCodec, settingsCodecLabel, settings_theCheckbox_Description, settings_thePopUp_FileFormat, settings_formatlabel, settings_thePathControl, settings_pathLabel, MacYTDL_icon, settings_prompt}
-	
+	set settings_allControls to {theSettingsRule, settings_theCheckbox_Show_Settings, settings_theCheckbox_TemplateOverride, settings_theField_TemplateOverride, settings_theCheckbox_Limit_Rate, settings_theField_LimitRateValue, settings_theCheckBox_Use_Proxy, settings_theField_ProxyURL, settings_theCheckbox_Original, settings_thePopUp_RemuxFormat, settings_remuxlabel, settings_theCheckbox_Metadata, settings_theCheckbox_Verbose, settings_theCheckbox_ThumbEmbed, settings_theCheckbox_ThumbWrite, settings_theCheckbox_AutoSubTitles, settings_thePopUp_SubTitlesFormat, settings_STFormatlabel, settings_theField_STLanguage, settings_language_label, settings_theCheckbox_STEmbed, settings_theCheckbox_SubTitles, settings_theCheckbox_Auto_YTDL_Check, settings_theCheckbox_AudioOnly, settings_thePopup_AudioCodec, settingsCodecLabel, settings_theCheckbox_Description, settings_thePopUp_FileFormat, settings_formatlabel, settings_thePathControl, settings_pathLabel, MacYTDL_icon, settings_prompt}
+
 	-- Make sure MacYTDL is in front and show dialog
 	tell me to activate
 	set {settings_button_returned, settings_button_number_returned, settings_controls_results} to display enhanced window diag_Title buttons theButtons acc view width accViewWidth acc view height theTop acc view controls settings_allControls initial position window_Position
@@ -1718,32 +1737,34 @@ on set_settings(URL_user_entered_clean)
 		-- Get control results from settings dialog - numbered choice variables are not used but help ensure correct values go into prefs file
 		--set settings_choice_1 to item 1 of settings_controls_results -- <= The ruled line
 		set settings_show_settings_choice to item 2 of settings_controls_results -- <= Show settings before download choice
-		set settings_limit_rate_choice to item 3 of settings_controls_results -- <= Limit rate choice
-		set settings_limit_rate_value_choice to item 4 of settings_controls_results -- <= Limit rate value choice
-		set settings_use_proxy_choice to item 5 of settings_controls_results -- <= Use proxy choice
-		set settings_proxy_URL_choice to item 6 of settings_controls_results -- <= The proxy URL
-		set settings_original_choice to item 7 of settings_controls_results -- <= Keep original after remux choice
-		set settings_remux_format_choice to item 8 of settings_controls_results -- <= Remux format choice
-		-- set settings_choice_9 to item 9 of settings_controls_results -- <= The Remux format popup label
-		set settings_metadata_choice to item 10 of settings_controls_results -- <= Add metadata choice
-		set settings_verbose_choice to item 11 of settings_controls_results -- <= Verbose choice
-		set settings_thumb_embed_choice to item 12 of settings_controls_results -- <= Embed Thumbnails choice
-		set settings_thumb_write_choice to item 13 of settings_controls_results -- <= Write Thumbnails choice
-		set settings_autoST_choice to item 14 of settings_controls_results -- <= Auto-gen subtitles choice
-		set settings_subtitlesformat_choice to item 15 of settings_controls_results -- <= Subtitles format choice
+		set settings_override_template_choice to item 3 of settings_controls_results -- <= Override the default output template
+		set settings_output_template_choice to item 4 of settings_controls_results -- <= The new default output template
+		set settings_limit_rate_choice to item 5 of settings_controls_results -- <= Limit rate choice
+		set settings_limit_rate_value_choice to item 6 of settings_controls_results -- <= Limit rate value choice
+		set settings_use_proxy_choice to item 7 of settings_controls_results -- <= Use proxy choice
+		set settings_proxy_URL_choice to item 8 of settings_controls_results -- <= The proxy URL
+		set settings_original_choice to item 9 of settings_controls_results -- <= Keep original after remux choice
+		set settings_remux_format_choice to item 10 of settings_controls_results -- <= Remux format choice
+		-- set settings_choice_9 to item 11 of settings_controls_results -- <= The Remux format popup label
+		set settings_metadata_choice to item 12 of settings_controls_results -- <= Add metadata choice
+		set settings_verbose_choice to item 13 of settings_controls_results -- <= Verbose choice
+		set settings_thumb_embed_choice to item 14 of settings_controls_results -- <= Embed Thumbnails choice
+		set settings_thumb_write_choice to item 15 of settings_controls_results -- <= Write Thumbnails choice
+		set settings_autoST_choice to item 16 of settings_controls_results -- <= Auto-gen subtitles choice
+		set settings_subtitlesformat_choice to item 17 of settings_controls_results -- <= Subtitles format choice
 		-- set settings_STFormatlabel_choice to item 16 of settings_controls_results -- <= Subtitles format popup label
-		set settings_subtitleslanguage_choice to item 17 of settings_controls_results -- <= Subtitles language choice
-		-- set settings_subtitleslanguage_18 to item 18 of settings_controls_results -- <= Subtitles language field label
-		set settings_stembed_choice to item 19 of settings_controls_results -- <= Embed subtitles choice
-		set settings_subtitles_choice to item 20 of settings_controls_results -- <= Subtitles choice
-		set settings_YTDL_auto_choice to item 21 of settings_controls_results -- <= Auto check YTDL version on startup choice
-		set settings_audio_only_choice to item 22 of settings_controls_results -- <= Audio only choice
-		set settings_audio_codec_choice to item 23 of settings_controls_results -- <= Audio codec choice
-		-- set settings_audiocodec_24 to item 24 of settings_controls_results -- <= Audio codec field label
-		set settings_description_choice to item 25 of settings_controls_results -- <= Description choice
-		set settings_format_choice to item 26 of settings_controls_results -- <= File format choice
-		-- set settings_choice_27 to item 27 of settings_controls_results -- <= The Format popup label
-		set settings_folder_choice to item 28 of settings_controls_results -- <= The download path choice
+		set settings_subtitleslanguage_choice to item 19 of settings_controls_results -- <= Subtitles language choice
+		-- set settings_subtitleslanguage_18 to item 19 of settings_controls_results -- <= Subtitles language field label
+		set settings_stembed_choice to item 21 of settings_controls_results -- <= Embed subtitles choice
+		set settings_subtitles_choice to item 22 of settings_controls_results -- <= Subtitles choice
+		set settings_YTDL_auto_choice to item 23 of settings_controls_results -- <= Auto check YTDL version on startup choice
+		set settings_audio_only_choice to item 24 of settings_controls_results -- <= Audio only choice
+		set settings_audio_codec_choice to item 25 of settings_controls_results -- <= Audio codec choice
+		-- set settings_audiocodec_24 to item 26 of settings_controls_results -- <= Audio codec field label
+		set settings_description_choice to item 27 of settings_controls_results -- <= Description choice
+		set settings_format_choice to item 28 of settings_controls_results -- <= File format choice
+		-- set settings_choice_27 to item 29 of settings_controls_results -- <= The Format popup label
+		set settings_folder_choice to item 30 of settings_controls_results -- <= The download path choice
 		-- set settings_choice_29 to item 29 of settings_controls_results -- <= The Path label
 		-- set settings_choice_30 to item 30 of settings_controls_results -- <= The MacYTDL icon
 		-- set settings_choice_31 to item 31 of settings_controls_results -- <= Contains the "About" text
@@ -1766,8 +1787,28 @@ on set_settings(URL_user_entered_clean)
 				set value of property list item "Auto_Check_YTDL_Update" to settings_YTDL_auto_choice
 				set value of property list item "Add_Metadata" to settings_metadata_choice
 				set value of property list item "Show_Settings_before_Download" to settings_show_settings_choice
+				set value of property list item "Override_default_output_template" to settings_override_template_choice
 			end tell
 		end tell
+		
+		-- Check Output Template ends with ".%(ext)s"
+		if settings_output_template_choice is not equal to "" then
+			if settings_output_template_choice does not end with ".%(ext)s" then
+				set settings_output_template_choice to settings_output_template_choice & ".%(ext)s"
+			end if
+			tell application "System Events"
+				tell property list file MacYTDL_prefs_file
+					set value of property list item "Output_template" to settings_output_template_choice
+				end tell
+			end tell
+		else
+			tell application "System Events"
+				tell property list file MacYTDL_prefs_file
+					set value of property list item "Output_template" to ""
+					set value of property list item "Override_default_output_template" to false
+				end tell
+			end tell
+		end if
 		
 		-- Check proxy URL starts with a valid protocol
 		if settings_proxy_URL_choice is not "" then
@@ -1985,7 +2026,7 @@ on check_MacYTDL()
 		main_dialog()
 	else
 		set MacYTDL_version_start to (offset of "Version" in MacYTDL_releases_page) + 8
-		set MacYTDL_version_end to (offset of " Ð " in MacYTDL_releases_page) - 1
+		set MacYTDL_version_end to (offset of " ï¿½ " in MacYTDL_releases_page) - 1
 		set MacYTDL_version_check to text MacYTDL_version_start thru MacYTDL_version_end of MacYTDL_releases_page
 		if MacYTDL_version_check is not equal to MacYTDL_version then
 			set theMacYTDLNewVersionAvailLabel1 to localized string "A new version of MacYTDL is available. You have version "
@@ -2361,7 +2402,7 @@ on show_about()
 	set theButtonsAbout1Label to localized string "MacYTDL is a simple AppleScript program for downloading videos from various web sites. It uses the youtube-dl Python script as the download engine."
 	set about_text_1 to theButtonsAbout1Label
 	set theButtonsAbout2Label to localized string "Please post any questions or suggestions to github.com/section83/MacYTDL/issues"
-	set theButtonsAbout3Label to localized string "Written by © Vincentius, "
+	set theButtonsAbout3Label to localized string "Written by ï¿½ Vincentius, "
 	set theButtonsAbout4Label to localized string "With thanks to Shane Stanley, Adam Albrec, kopurando, Michael Page, Tombs and all MacYTDL users."
 	set about_text_2 to theButtonsAbout2Label & return & return & theButtonsAbout3Label & MacYTDL_date & ". " & theButtonsAbout4Label
 	set theButtonsAboutDiagLabel to localized string "About MacYTDL"
@@ -2465,7 +2506,7 @@ on add_To_Batch(URL_user_entered_lines, number_of_URLs)
 		set URL_user_entered_lines to text 1 thru end of (run_Utilities_handlers's replace_chars(URL_user_entered_lines, " ", return))
 	end if
 	set batch_filename to "BatchFile.txt" as string
-	set batch_file to POSIX file (MacYTDL_preferences_path & batch_filename) as Çclass furlÈ
+	set batch_file to POSIX file (MacYTDL_preferences_path & batch_filename) as ï¿½class furlï¿½
 	try
 		set batch_refNum to missing value
 		set batch_refNum to open for access batch_file with write permission
