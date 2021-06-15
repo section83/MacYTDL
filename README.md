@@ -22,6 +22,7 @@ MacYTDL is a utility which downloads videos using the [youtube-dl,](https://gith
 * Download or extract audio-only files in chosen format.
 * Optional macOS Service which gets the current text selection, clipboard contents or active web browser URL, switches to MacYTDL and pastes URL of video to be downloaded.
 * All components downloaded and/or installed by MacYTDL, which can be controlled by the user. Component updates available in the app.
+* Issues notification (via [*Alerter*](https://github.com/vjeantet/alerter)) when download finished with option to play the video.
 * A separate log file is retained for each download enabling problem solving if a download fails.
 * Has a built-in uninstaller which moves all components to Trash.
 * Includes a range of simple utilities.
