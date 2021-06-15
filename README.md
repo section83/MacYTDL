@@ -42,7 +42,7 @@ MacYTDL is a utility which downloads videos using the [youtube-dl,](https://gith
 More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/images/Help-small.pdf)(2.6MB).
 
 ### Bugs, problems, questions
-To report bugs, problems etc., get a Github account, click on the "Issues" tab above and open a new issue.  Alternatively, send an email using the "About" dialog inside MacYTDL Utilities.
+To report bugs, problems etc., get a Github account, click on the "Issues" tab above and open a new issue.  Alternatively, open an item in "Discussions" above or send an email using the "About" dialog inside MacYTDL Utilities.
 
 ### Acknowledgements
 
