@@ -1,7 +1,5 @@
 # MacYTDL
 
-# UPDATE 12.53PM, 30/10/21 AEDT: THE CURRENT MACYTDL DOWNLOAD MAY NOT WORK. THIS MAY BE DUE TO A PROBLEM WITH CODE SIGNING. I WILL UPDATE THIS NOTICE AS SOON AS POSSIBLE
-
 MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloaders scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. macOS 10.15 or higher is required to use _YT-DLP_. It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
 
 [Download from here](https://github.com/section83/MacYTDL/releases/download/v1.19/MacYTDL-v1.19.dmg).
