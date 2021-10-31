@@ -1,6 +1,6 @@
 # MacYTDL
 
-MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloaders scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. macOS 10.15 or higher is required to use _YT-DLP_. It has been developed in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
+MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. macOS 10.15 or higher is required to use _YT-DLP_. It has been developed mostly in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
 
 [Download from here](https://github.com/section83/MacYTDL/releases/download/v1.19/MacYTDL-v1.19.dmg).
 
@@ -13,7 +13,6 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 * Download multiple videos separately (in parallel) or in one process (sequentially).
 * Works with all sites supported by [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp).
 * Can switch between _youtube-dl_ and _YT-DLP_ on Macs running macOS 10.15 and higher.
-  * Macs running macOS 10.14 or 10.13 can use _YT-DLP_ if two libaries are installed. Some detail on the two library files is provided on page 41 of the [Help](https://github.com/section83/MacYTDL/blob/master/Images/Help-small.pdf).
 * Can cancel individual downloads.
 * Settings for level of youtube-dl feedback, download folder, file format, remuxing format, download speed, proxy URL, custom file name template etc.
 * Batch downloads.
@@ -30,6 +29,14 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 * Has a built-in uninstaller which moves all components to Trash.
 * Includes a range of simple utilities.
 
+### Requirements
+
+An Apple Mac running macOS 10.10 Yosemite and higher is required to use MacYTDL. MacYTDL may work but has not been tested on a virtual machine nor a Hackintosh.
+
+_youtube-dl_ can be used with all versions of macOS and is the default for Macs running versions prior to 10.15 Catalina.
+
+_YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 3.8 is built into the _YT-DLP_ executable. Macs running macOS 10.14 or 10.13 can use _YT-DLP_ if two libaries are installed. Some detail on the two library files is on page 41 of the [Help](https://github.com/section83/MacYTDL/blob/master/Images/Help-small.pdf).
+
 ### How to install for the first time
 
 * Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/v1.19/MacYTDL-v1.19.dmg).
@@ -45,6 +52,8 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 
 * Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/v1.19/MacYTDL-v1.19.dmg).
 * Click and drag MacYTDL to your usual location – make sure to delete the old version.
+* Open MacYTDL. Components such as the preferences file are updated as required.
+  * Users on macOS 10.15 Catalina and higher are invited to install _YT-DLP_.
 
 More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/Images/Help-small.pdf) (1.4MB).
 
