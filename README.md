@@ -73,7 +73,7 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 * “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader.
 * Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
 * Frank, Geoff, John, Santo, Trevor and Walter, fellow members of the [ACT Apple Users Group](https://www.actapple.org.au).
-* MacYTDL users 11lucasarr11, Adam, Alex, AirMarty, Andy, andyrb412, artcore-c, barney1903, BigJoe309, bovirus, CdrSpock, Dantha, darbid, defcon5at, EuronymousDeadOhlin, hunterbr3193, ItsMorePaul, Jack, janvdvelde, L-Kiewa, LeonardoMaracino, MalEbenSo, martinsstuff, meiwechner, michel-GH, Mike, MrJmpl3, pedrocadiz13, Peter, Rick, roest01, SwineBurglar, Ted, tht7, tigrr, Tobias, Tom, TomasCarlson, upekshapriya, zxzzz8.
+* MacYTDL users 11lucasarr11, Adam, Alex, AirMarty, Andy, andyrb412, artcore-c, barney1903, BigJoe309, bovirus, CdrSpock, Dantha, darbid, defcon5at, EuronymousDeadOhlin, heviiguy, hunterbr3193, ItsMorePaul, Jack, janvdvelde, L-Kiewa, LeonardoMaracino, MalEbenSo, martinsstuff, meiwechner, michel-GH, Mike, MrJmpl3, Nellio, nottooloud, pedrocadiz13, Peter, Rick, roest01, SwineBurglar, Ted, tht7, tigrr, Tobias, Tom, TomasCarlson, upekshapriya, zxzzz8.
 
 ### MacYTDL is free
 
