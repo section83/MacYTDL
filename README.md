@@ -2,7 +2,7 @@
 
 MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. macOS 10.15 or higher is required to use _YT-DLP_. MacYTDL has been developed mostly in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.19.2/MacYTDL-v1.19.2.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.19.4/MacYTDL-v1.19.4.dmg).
 
 
 ![Main dailog](https://github.com/section83/MacYTDL/blob/master/Images/v1.19.2%20-%20Main.png)
@@ -39,7 +39,7 @@ _YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.19.2/MacYTDL-v1.19.2.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.19.4/MacYTDL-v1.19.4.dmg).
 * Browse the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
@@ -50,7 +50,7 @@ _YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 
 
 ### How to update
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.19.2/MacYTDL-v1.19.2.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.19.4/MacYTDL-v1.19.4.dmg).
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
   * Users on macOS 10.15 Catalina and higher are invited to install _YT-DLP_.
@@ -73,7 +73,7 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 * “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader.
 * Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
 * Frank, Geoff, John, Santo, Trevor and Walter, fellow members of the [ACT Apple Users Group](https://www.actapple.org.au).
-* MacYTDL users 11lucasarr11, Adam, Alex, AirMarty, Andy, andyrb412, artcore-c, barney1903, BigJoe309, bovirus, CdrSpock, Dantha, darbid, defcon5at, EuronymousDeadOhlin, heviiguy, hunterbr3193, ItsMorePaul, Jack, janvdvelde, L-Kiewa, LeonardoMaracino, MalEbenSo, martinsstuff, meiwechner, michel-GH, Mike, MrJmpl3, Nellio, nottooloud, pedrocadiz13, Peter, Rick, roest01, SwineBurglar, Ted, tht7, tigrr, Tobias, Tom, TomasCarlson, upekshapriya, zxzzz8.
+* MacYTDL users 11lucasarr11, Adam, Alex, AirMarty, Andy, andyrb412, artcore-c, barney1903, BigJoe309, bovirus, CdrSpock, Dantha, darbid, defcon5at, EuronymousDeadOhlin, Hamza, heviiguy, hunterbr3193, ItsMorePaul, Jack, janvdvelde, L-Kiewa, LeonardoMaracino, MalEbenSo, martinsstuff, meiwechner, michel-GH, Mike, MrJmpl3, Nellio, nottooloud, pedrocadiz13, Peter, Rick, roest01, SwineBurglar, Ted, tht7, tigrr, Tobias, Tom, TomasCarlson, upekshapriya, zxzzz8.
 
 ### MacYTDL is free
 
