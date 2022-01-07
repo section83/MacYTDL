@@ -14,6 +14,7 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 * Works with all sites supported by [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp).
 * Can switch between _youtube-dl_ and _YT-DLP_ on Macs running macOS 10.15 and higher.
 * Can cancel individual downloads.
+* Can pass through any custom settings to _youtube-dl_ and _YT-DLP_.
 * Settings for level of youtube-dl feedback, download folder, file format, remuxing format, download speed, proxy URL, custom file name template etc.
 * Batch downloads.
 * Download a text description of the video.
