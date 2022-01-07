@@ -39,7 +39,7 @@ _YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.19.4/MacYTDL-v1.19.4.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.20/MacYTDL-v1.20.dmg).
 * Browse the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
