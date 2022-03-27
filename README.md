@@ -5,7 +5,7 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 [Download from here](https://github.com/section83/MacYTDL/releases/download/1.21/MacYTDL-v1.21.dmg).
 
 
-![Main dailog](https://github.com/section83/MacYTDL/blob/master/Images/Main%20-%20v1.21.png)
+![Main dailog](https://github.com/section83/MacYTDL/blob/master/Images/Main%20-%20v1.21.png =480x374)
 
 ### Features
 
