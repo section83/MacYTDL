@@ -2,7 +2,7 @@
 
 MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. macOS 10.15 or higher is required to use _YT-DLP_. MacYTDL has been developed mostly in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.21.2/MacYTDL-v1.21.2.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.22/MacYTDL-v1.22.dmg).
 
 
 #### Main dailog
@@ -44,7 +44,7 @@ _YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.21.2/MacYTDL-v1.21.2.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.22/MacYTDL-v1.22.dmg).
 * Browse the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
@@ -55,12 +55,12 @@ _YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 
 
 ### How to update
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.21.2/MacYTDL-v1.21.2.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.22/MacYTDL-v1.22.dmg).
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
   * Users on macOS 10.15 Catalina and higher are invited to install _YT-DLP_.
 
-More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/Images/Help.pdf) (3.9MB).
+More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/Images/Help.pdf) (3.97MB).
 
 ### Bugs, problems, questions
 To report bugs, problems etc., get a Github account, click on the "Issues" tab above and open a new issue.  Alternatively, open an item in "Discussions" above or send an email to macytdl@gmail.com.
