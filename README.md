@@ -43,7 +43,7 @@ An Apple Mac running macOS 10.10 Yosemite and higher is required to use MacYTDL.
 
 _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1 and is the default for Macs running macOS versions prior to 10.15 Catalina.
 
-_YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 3.8 is built into the _YT-DLP_ executable. Macs running macOS 10.14 or 10.13 can use _YT-DLP_ if two libaries are installed. Some detail on the two library files is on page 45 of the [Help](https://github.com/section83/MacYTDL/blob/master/Images/Help.pdf).
+_YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 3.8 is built into the _YT-DLP_ executable. Macs running macOS 10.14 or 10.13 can use _YT-DLP_ if two libaries are installed. Some detail on the two library files is on page 51 of the [Help](https://github.com/section83/MacYTDL/blob/master/Images/Help.pdf).
 
 ### How to install for the first time
 
