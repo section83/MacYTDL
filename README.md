@@ -1,8 +1,8 @@
 # MacYTDL
 
-MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. macOS 10.15 or higher is required to use _YT-DLP_. MacYTDL has been developed mostly in AppleScript. The code is not protected and can be opened in Script Editor. MacYTDL is code signed and notarized.
+MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. macOS 10.15 or higher is required to use _YT-DLP_. MacYTDL has been developed mostly in AppleScript. The code is not accessable from within the applet. However, text exports of the code are in the "Code" folder above and can be opened in _Script Editor_. MacYTDL is code signed and notarized.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.23/MacYTDL-v1.23.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.23.1/MacYTDL-v1.23.1.dmg).
 
 
 #### Main dailog
@@ -28,6 +28,7 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 * Download and optionally embed thumbnail images and metadata.
 * Download or extract audio-only files in chosen format.
 * Optional macOS Service which gets the current text selection, clipboard contents or active web browser URL, switches to MacYTDL and pastes URL of video to be downloaded.
+* The Service can be set to automatically download from the URL of the current web page without showing the Main dialog.
 * Settings can be saved, restored and rest to default.
 * All components downloaded and/or installed by MacYTDL, which can be controlled by the user. Component updates available in the app.
 * Issues notification (via [*Alerter*](https://github.com/vjeantet/alerter)) when download finished with option to play the video.
@@ -46,7 +47,7 @@ _YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.23/MacYTDL-v1.23.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.23.1/MacYTDL-v1.23.1.dmg).
 * Browse the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
@@ -57,7 +58,7 @@ _YT-DLP_ is the default for Macs running macOS 10.15 Catalina or higher. Python 
 
 ### How to update
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.23/MacYTDL-v1.23.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.23.1/MacYTDL-v1.23.1.dmg).
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
   * Users on macOS 10.15 Catalina and higher are invited to install _YT-DLP_.
@@ -80,7 +81,7 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 * “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader.
 * Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
 * Frank, Geoff, John, Santo, Trevor and Walter, fellow members of the [ACT Apple Users Group](https://www.actapple.org.au).
-* MacYTDL users 1alessandro1, 11lucasarr11, Adam, AirMarty, Alex, alphabitnz, Andy, andyrb412, artcore-c, barney1903, Başar, BigJoe309, bovirus, Brandon, CdrSpock, Dantha, darbid, defcon5at, Didier EuronymousDeadOhlin, frissonlabs, gustavosaez, Hamza, heviiguy, hunterbr3193, ItsMorePaul, Jack, janvdvelde, jeremydouglass, L-Kiewa, Labhansh-Sharma. LeonardoMaracino, MalEbenSo, martinsstuff, meiwechner, michel-GH, Mike, MrJmpl3, Nellio, nottooloud, pedrocadiz13, Peter, QAQDE, Rick, Raymond-Adams, roest01, SwineBurglar, Ted, thejasonparker, tht7, tigrr, Tobias, Tom, TomasCarlson, upekshapriya, Woolfy025, zxzzz8.
+* MacYTDL users 1alessandro1, 11lucasarr11, Adam, AirMarty, Alex, alphabitnz, Andy, andyrb412, artcore-c, barney1903, Başar, BigJoe309, bovirus, Brandon, CdrSpock, Dantha, darbid, defcon5at, Didier EuronymousDeadOhlin, frissonlabs, gustavosaez, Hamza, heviiguy, hunterbr3193, ItsMorePaul, Jack, janvdvelde, jeremydouglass, kuglee, L-Kiewa, Labhansh-Sharma. LeonardoMaracino, MalEbenSo, martinsstuff, meiwechner, michel-GH, Mike, MrJmpl3, Nellio, nottooloud, onaforeignshore, pedrocadiz13, Peter, QAQDE, Rick, Raymond-Adams, roest01, SwineBurglar, Ted, thejasonparker, tht7, tigrr, Tobias, Tom, TomasCarlson, upekshapriya, Vinsamlegast78, Woolfy025, zxzzz8.
 
 ### MacYTDL is free
 
