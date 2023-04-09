@@ -22,6 +22,7 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 * Settings for level of youtube-dl feedback, download folder, file format, remuxing format, download speed, proxy URL, Quicktime compatibility, custom file name template etc.
 * Batch downloads.
 * Download a text description of the video.
+* Option to choose from available download formats.
 * Localisation – currently Spanish, Italian, French and German are available (switching languages is supported in macOS 10.15 and later).
   * Localisation is not yet up-to-date.
 * Download and embed subtitles in chosen format and language including auto-generated captions from YouTube.
