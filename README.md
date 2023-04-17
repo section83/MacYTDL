@@ -2,7 +2,7 @@
 
 MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. MacYTDL has been developed mostly in AppleScript. The code is not accessable from within the applet. However, text exports of the code are in the "Code" folder above and can be opened in _Script Editor_. MacYTDL is code signed and notarized.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.24/MacYTDL_v1.24.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.24/MacYTDL-v1.24.dmg).
 
 
 #### Main dailog
@@ -48,7 +48,7 @@ _YT-DLP_ is the default for all Macs. Python 3.8 is built into the _YT-DLP_ exec
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.24/MacYTDL_v1.24.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.24/MacYTDL-v1.24.dmg).
 * Browse the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
@@ -59,7 +59,7 @@ _YT-DLP_ is the default for all Macs. Python 3.8 is built into the _YT-DLP_ exec
 
 ### How to update
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.24/MacYTDL_v1.24.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.24/MacYTDL-v1.24.dmg).
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
 
