@@ -2,12 +2,12 @@
 
 MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. MacYTDL has been developed mostly in AppleScript. The code is not accessable from within the applet. However, text exports of the code are in the "Code" folder above and can be opened in _Script Editor_. MacYTDL is code signed and notarized.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.24.1/MacYTDL-v1.24.1.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.24.1/MacYTDL-v1.25.dmg).
 
 
 #### Main dailog
 
-<img src="https://github.com/section83/MacYTDL/blob/master/Images/Main%20-%20v1.24.png" width="480" height="374">
+<img src="https://github.com/section83/MacYTDL/blob/master/Images/Main.png" width="480" height="374">
 
 ### Features
 
@@ -23,6 +23,7 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 * Batch downloads.
 * Download a text description of the video.
 * Option to choose from available download formats.
+* Switch between stable and nightly builds of _YT-DLP_.
 * Localisation – currently Spanish, Italian, French and German are available (switching languages is supported in macOS 10.15 and later).
   * Localisation is not yet up-to-date.
 * Download and embed subtitles in chosen format and language including auto-generated captions from YouTube.
@@ -48,7 +49,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1.
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.24.1/MacYTDL-v1.24.1.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.24.1/MacYTDL-v1.25.dmg).
 * Browse the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
@@ -59,7 +60,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1.
 
 ### How to update
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.24.1/MacYTDL-v1.24.1.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.24.1/MacYTDL-v1.25.dmg).
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
 
