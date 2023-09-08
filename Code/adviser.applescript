@@ -30,9 +30,13 @@ on run {monitor_pid, youtubedl_pid, MacYTDL_custom_icon_file_not_posix_monitor, 
 	set YTDL_log_file_monitor to POSIX file YTDL_log_file_monitor
 	
 	-- Some downloads come thru with multiple file names - isolate the first so it can be played when download finished
-	set num_paragraphs_file_name to count of paragraphs of download_filename_new_monitor_plain
+	--set num_paragraphs_file_name to count of paragraphs of download_filename_new_monitor_plain
+	-- set download_filename_monitor_noquotes to characters 2 thru -2 of download_filename_monitor
+	-- set num_paragraphs_file_name to count of paragraphs of download_filename_monitor
+	set num_paragraphs_file_name to count of paragraphs in download_filename_monitor
 	if num_paragraphs_file_name is greater than 1 then
-		repeat with find_paragraph in paragraphs of download_filename_new_monitor_plain
+		--			repeat with find_paragraph in paragraphs of download_filename_new_monitor_plain
+		repeat with find_paragraph in paragraphs of download_filename_monitor
 			if find_paragraph does not contain "ERROR:" and find_paragraph does not contain "WARNING:" then
 				set download_filename_play to find_paragraph
 				exit repeat
@@ -41,7 +45,8 @@ on run {monitor_pid, youtubedl_pid, MacYTDL_custom_icon_file_not_posix_monitor, 
 	else
 		set download_filename_play to download_filename_new_monitor_plain
 	end if
-	-- For a batch need to get download file name from different variable - need to remove quotes
+	
+	-- For a batch need to get download file name from different variable - need to remove quotes - THIS SECTION LOOKS AT WRONG VARIABLE !?
 	if download_filename_new_monitor is "the saved batch" then
 		set download_filename_play to download_filename_monitor
 	end if
@@ -96,10 +101,9 @@ on run {monitor_pid, youtubedl_pid, MacYTDL_custom_icon_file_not_posix_monitor, 
 				set theAdviserTextLabel2 to quoted form of (localized string "Click to open downloads folder" in bundle file pathToBundleShort from table "MacYTDL")
 				set theAdviserButtonsCloseLabel2 to localized string "Play" in bundle file pathToBundleShort from table "MacYTDL"
 				set adviser_button to do shell script alerterPath & "/alerter -message " & theAdviserTextLabel2 & " -title " & theAdviserTextLabel1 & " -subtitle " & subtitleText & " -closeLabel " & theAdviserButtonsCloseLabel1 & " -timeout 10 -sender com.apple.script.id.MacYTDL -actions " & theAdviserButtonsCloseLabel2
-				-- User chose to play the finished download - or the first item of a batch or multiple download
+				
+				-- User chose to play the finished download - or the first item of a batch, playlist or multiple download
 				if adviser_button is theAdviserButtonsCloseLabel2 then
-					
-					-- Did user specify download location in custom template - if so, downloadsFolder_Path_monitor can be omitted
 					-- If download is a recorded live stream, get file name from log file as it can be different to name found in simulation - beware of date-time stamps
 					if is_Livestream_Flag_monitor is "True" then
 						repeat with find_paragraph in paragraphs of YTDL_log
@@ -110,6 +114,7 @@ on run {monitor_pid, youtubedl_pid, MacYTDL_custom_icon_file_not_posix_monitor, 
 							end if
 						end repeat
 					end if
+					-- Did user specify download location in custom template - if so, downloadsFolder_Path_monitor can be omitted
 					if download_filename_play contains "Users" then
 						set pathToVideoFile to POSIX file (download_filename_play)
 					else

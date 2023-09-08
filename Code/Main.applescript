@@ -148,6 +148,7 @@ tell application "System Events"
 	set MacYTDL_copyright to value of property list item "NSHumanReadableCopyright" of contents of property list file bundle_file
 	set MacYTDL_version to value of property list item "CFBundleShortVersionString" of contents of property list file bundle_file
 end tell
+
 set MacYTDL_date_position to (offset of "," in MacYTDL_copyright) + 2
 set MacYTDL_date to text MacYTDL_date_position thru end of MacYTDL_copyright
 set MacYTDL_date_day to word 1 of MacYTDL_date
@@ -275,9 +276,7 @@ tell application "System Events"
 	if exists file ytdlp_file then
 		set ytdlp_path_alias to POSIX file ytdlp_file as alias
 		
-		tell application "System Events"
-			set its_type to file type of disk item homebrew_Intel_ytdlp_file
-		end tell
+		set its_type to file type of disk item homebrew_Intel_ytdlp_file
 		
 		-- Is this a Homebrew install on Intel or MacPorts install ? Homebrew normally adds a symlink to /usr/local/bin/ on Intel Macs - MacPorts adds a symlink to /opt/local/bin/
 		if its_type is "slnk" then
@@ -296,11 +295,11 @@ tell application "System Events"
 			set homebrew_ytdlp_exists to false
 			set ytdlp_exists to false
 		end if
-		
 		-- Nothing in /usr/local/bin - look for Homebrew on ARM Macs
 	else if exists file homebrew_ARM_ytdlp_file then
 		set ytdlp_exists to false
 		set homebrew_ytdlp_exists to true
+		set ytdlp_file to ("/opt/homebrew/bin/yt-dlp" as text)
 		-- Nothing in /opt/homebrew/bin - look for MacPorts - same location for Intel and ARM Macs - use homebrew_ytdlp_exists as proxy for both HomeBrew and MacPorts - simplifies coding everywhere
 		-- Assume that any file in /opt/local/bin/ is a MacPorts install
 	else if exists file macPorts_ytdlp_file then
@@ -320,9 +319,7 @@ tell application "System Events"
 	
 	if exists file ffmpeg_file then
 		-- Is this a Homebrew install on Intel ?
-		tell application "System Events"
-			set its_type_ffmpeg to file type of disk item homebrew_Intel_ffmpeg_file
-		end tell
+		set its_type_ffmpeg to file type of disk item homebrew_Intel_ffmpeg_file
 		if its_type_ffmpeg is "slnk" then
 			set homebrew_ffmpeg_exists to true
 			set ffmpeg_exists to false
@@ -348,9 +345,7 @@ tell application "System Events"
 	
 	if exists file ffprobe_file then
 		-- Is this a Homebrew install on Intel ?
-		tell application "System Events"
-			set its_type_ffmprobe to file type of disk item homebrew_Intel_ffprobe_file
-		end tell
+		set its_type_ffmprobe to file type of disk item homebrew_Intel_ffprobe_file
 		if its_type_ffmpeg is "slnk" then
 			set homebrew_ffprobe_exists to true
 			set ffprobe_exists to false
@@ -520,7 +515,6 @@ if (ytdlp_exists is true or homebrew_ytdlp_exists is true) and setting_yt_dlp is
 	end tell
 end if
 
-
 -- Check if DTP exists - install if not
 if DTP_exists is false then
 	set theInstallDTPTextLabel to localized string "MacYTDL needs a code library installed in your Libraries folder. It cannot function without that library. Do you wish to continue ?" from table "MacYTDL"
@@ -612,7 +606,7 @@ if user_on_123 is true and DL_Use_YTDLP is "youtube-dl" then
 	end if
 end if
 
--- Do the auto check - but not if user has Homebrew installed - this code might need some more nuance
+-- Do the auto check - but not if user has Homebrew or MacPorts installed - this code might need some more nuance
 if DL_YTDL_auto_check is true then
 	-- Need to set YTDL_version according to current script
 	if DL_Use_YTDLP is "youtube-dl" then
@@ -623,7 +617,7 @@ if DL_YTDL_auto_check is true then
 	if homebrew_ytdlp_exists is false then
 		check_ytdl(DL_Use_YTDLP)
 	else
-		set alert_text_ytdlLabel to localized string "Sorry, auto update cannot be used for Homebrew installs of YT-DLP." from table "MacYTDL"
+		set alert_text_ytdlLabel to localized string "Sorry, auto update cannot be used for Homebrew/MacPorts installs of YT-DLP." from table "MacYTDL"
 		display dialog alert_text_ytdlLabel with title diag_Title buttons theButtonOKLabel default button 1 with icon file MacYTDL_custom_icon_file giving up after 600
 	end if
 	set alert_text_ytdlLabel to localized string "has been updated" from table "MacYTDL"
@@ -918,7 +912,10 @@ on main_dialog()
 		end if
 	end if
 	
-	check_download_folder(folder_chosen)
+	-- Tell download_video handler that it should return to main_dialog when finished - auto_download tells download_video to skip main and just close	
+	set skip_Main_dialog to false
+	
+	check_download_folder(folder_chosen, theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel, diag_Title, MacYTDL_custom_icon_file, skip_Main_dialog)
 	if DL_Use_Cookies is true then check_cookies_file(DL_Cookies_Location)
 	
 	-- Set variable to contain download folder path - value comes from runtime settings which gets initial value from preferences but which user can then change
@@ -934,14 +931,12 @@ on main_dialog()
 	set URL_user_entered_from_auto_download to ""
 	
 	set downloadsFolder_Path to folder_chosen
-	-- Tell download_video handler that it should return to main_dialog when finished - auto_download tells download_video to skip main and just close	
-	set skip_Main_dialog to false
 	
 	if button_number_returned is 5 then -- Continue to download		
 		if openBatch_chosen is true then
 			open_batch_processing(folder_chosen, remux_format_choice, subtitles_choice, YTDL_credentials, YTDL_subtitles, YTDL_STEmbed, YTDL_format, YTDL_remux_format, YTDL_Remux_original, YTDL_description, YTDL_audio_only, YTDL_audio_codec, YTDL_over_writes, YTDL_Thumbnail_Write, YTDL_Thumbnail_Embed, YTDL_metadata, YTDL_limit_rate_value, YTDL_verbose, YTDL_TimeStamps, YTDL_Use_Proxy, YTDL_Use_Cookies, YTDL_Custom_Settings, YTDL_Custom_Template, YTDL_no_part, YTDL_QT_Compat, DL_Use_YTDLP)
 		else
-			download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_custom_icon_file_posix, screen_width, screen_height, YTDL_simulate_file, URL_user_entered, URL_user_entered_from_auto_download, folder_chosen, diag_Title, DL_batch_status, remux_format_choice, subtitles_choice, YTDL_credentials, YTDL_subtitles, YTDL_STEmbed, YTDL_format_pref, YTDL_format, YTDL_remux_format, YTDL_Remux_original, YTDL_description, YTDL_audio_only, YTDL_audio_codec, YTDL_over_writes, YTDL_Thumbnail_Write, YTDL_Thumbnail_Embed, YTDL_metadata, YTDL_limit_rate_value, YTDL_verbose, YTDL_TimeStamps, YTDL_Use_Proxy, YTDL_Use_Cookies, YTDL_Custom_Settings, YTDL_Custom_Template, YTDL_no_part, skip_Main_dialog, theButtonOKLabel, theButtonCancelLabel, theButtonDownloadLabel, theButtonReturnLabel, theButtonQuitLabel, theButtonContinueLabel, YTDL_QT_Compat, DL_Use_YTDLP)
+			download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_custom_icon_file_posix, screen_width, screen_height, YTDL_simulate_file, URL_user_entered, URL_user_entered_from_auto_download, folder_chosen, diag_Title, DL_batch_status, remux_format_choice, subtitles_choice, YTDL_credentials, YTDL_subtitles, YTDL_STEmbed, YTDL_format_pref, YTDL_format, YTDL_remux_format, YTDL_Remux_original, YTDL_description, YTDL_audio_only, YTDL_audio_codec, YTDL_over_writes, YTDL_Thumbnail_Write, YTDL_Thumbnail_Embed, YTDL_metadata, YTDL_limit_rate_value, YTDL_verbose, YTDL_TimeStamps, YTDL_Use_Proxy, YTDL_Use_Cookies, YTDL_Custom_Settings, YTDL_Custom_Template, YTDL_no_part, skip_Main_dialog, theButtonOKLabel, theButtonCancelLabel, theButtonDownloadLabel, theButtonReturnLabel, theButtonQuitLabel, theButtonContinueLabel, YTDL_QT_Compat, DL_Use_YTDLP, theBestLabel)
 		end if
 	end if
 end main_dialog
@@ -952,7 +947,7 @@ end main_dialog
 -- 	Download videos - called by Main dialog - calls monitor.scpt
 --
 ---------------------------------------------------------------------------------------------
-on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_custom_icon_file_posix, screen_width, screen_height, YTDL_simulate_file, URL_user_entered, URL_user_entered_from_auto_download, folder_chosen, diag_Title, DL_batch_status, remux_format_choice, subtitles_choice, YTDL_credentials, YTDL_subtitles, YTDL_STEmbed, YTDL_format_pref, YTDL_format, YTDL_remux_format, YTDL_Remux_original, YTDL_description, YTDL_audio_only, YTDL_audio_codec, YTDL_over_writes, YTDL_Thumbnail_Write, YTDL_Thumbnail_Embed, YTDL_metadata, YTDL_limit_rate_value, YTDL_verbose, YTDL_TimeStamps, YTDL_Use_Proxy, YTDL_Use_Cookies, YTDL_Custom_Settings, YTDL_Custom_Template, YTDL_no_part, skip_Main_dialog, theButtonOKLabel, theButtonCancelLabel, theButtonDownloadLabel, theButtonReturnLabel, theButtonQuitLabel, theButtonContinueLabel, YTDL_QT_Compat, DL_Use_YTDLP)
+on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_custom_icon_file_posix, screen_width, screen_height, YTDL_simulate_file, URL_user_entered, URL_user_entered_from_auto_download, folder_chosen, diag_Title, DL_batch_status, remux_format_choice, subtitles_choice, YTDL_credentials, YTDL_subtitles, YTDL_STEmbed, YTDL_format_pref, YTDL_format, YTDL_remux_format, YTDL_Remux_original, YTDL_description, YTDL_audio_only, YTDL_audio_codec, YTDL_over_writes, YTDL_Thumbnail_Write, YTDL_Thumbnail_Embed, YTDL_metadata, YTDL_limit_rate_value, YTDL_verbose, YTDL_TimeStamps, YTDL_Use_Proxy, YTDL_Use_Cookies, YTDL_Custom_Settings, YTDL_Custom_Template, YTDL_no_part, skip_Main_dialog, theButtonOKLabel, theButtonCancelLabel, theButtonDownloadLabel, theButtonReturnLabel, theButtonQuitLabel, theButtonContinueLabel, YTDL_QT_Compat, DL_Use_YTDLP, theBestLabel)
 	
 	if URL_user_entered_from_auto_download is not "" then
 		set URL_user_entered_clean to URL_user_entered_from_auto_download
@@ -1106,8 +1101,8 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 	set playlist_Name to ""
 	set DL_Playlist_Items_Spec to ""
 	set alerterPiD to ""
-	-- Implement user's request for certain playlist items
-	if DL_Custom_Settings contains "playlist-items" or DL_Custom_Settings contains "-I" then
+	-- Implement user's request for certain playlist items - if use custom settings is on
+	if (DL_Custom_Settings contains "playlist-items" or DL_Custom_Settings contains "-I") and DL_Use_Custom_Settings is true then
 		-- Tricky
 		set AppleScript's text item delimiters to " "
 		set num_custom_settings_items to count of text items in DL_Custom_Settings
@@ -1295,14 +1290,14 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 	delay 1
 	try
 		set YTDL_simulate_log to read POSIX file YTDL_simulate_file as «class utf8»
-	on error errmsg
-		display dialog "Error in reading simulate file: " & YTDL_simulate_file & return & "The error reported was " & errmsg
+	on error errMSG
+		display dialog "Error in reading simulate file: " & YTDL_simulate_file & return & "The error reported was " & errMSG
 	end try
 	
 	-- Check whether URL points to a live stream - add "no-part" so that file is playable - exclude playlists as by definition they can't be live streams - then strip out is_live response
 	set is_Livestream_Flag to "False"
 	if playlist_Name is "" then
-		-- Can't DL SBS live streams at present – need a YT-DLP extractor fix - no fix prepared as at 10/2/23
+		-- Can't DL SBS live streams at present – need a YT-DLP extractor fix - 22/6/23 - found SBS live streams work normally so, this workaround probably not needed - retain until certain it works
 		--		if URL_user_entered contains "sbs.com.au/ondemand" and (URL_user_entered contains "-live-stream" or YTDL_simulate_log contains "Live Stream") then
 		--			set is_Livestream_Flag to "True"
 		--			set YTDL_no_part to "--no-part "
@@ -1339,8 +1334,8 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 		delay 1
 		try
 			set YTDL_simulate_log to read POSIX file YTDL_simulate_file as «class utf8»
-		on error errmsg
-			display dialog "Error in reading simulate file: " & YTDL_simulate_file & return & "The error reported was " & errmsg
+		on error errMSG
+			display dialog "Error in reading simulate file: " & YTDL_simulate_file & return & "The error reported was " & errMSG
 		end try
 	end if
 	
@@ -1351,7 +1346,7 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 	end if
 	
 	if YTDL_simulate_log contains "Unsupported URL: https://7Plus.com.au" then
-		set theURLWarning7PlusLabel to localized string "This is a 7Plus Show page from which MacYTDL cannot download videos. Try an individual episode." from table "MacYTDL"
+		set theURLWarning7PlusLabel to localized string "This is a 7Plus movie or a show page from which MacYTDL cannot download videos. If it's a show page, try an individual episode." from table "MacYTDL"
 		display dialog theURLWarning7PlusLabel with title diag_Title buttons {theButtonOKLabel} default button 1 with icon file MacYTDL_custom_icon_file giving up after 600
 		if skip_Main_dialog is true then
 			error number -128
@@ -1389,8 +1384,8 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 			delay 1
 			try
 				set YTDL_simulate_log to read POSIX file YTDL_simulate_file as «class utf8»
-			on error errmsg
-				display dialog "Error in reading simulate file: " & YTDL_simulate_file & return & "The error reported was " & errmsg
+			on error errMSG
+				display dialog "Error in reading simulate file: " & YTDL_simulate_file & return & "The error reported was " & errMSG
 			end try
 		else if quit_or_return is "Remux" then
 			-- User wants download remuxed to preferred format - simulate again to get file name into similate file - set desired format to null so that YTDL automatically downloads best available and set remux parameters
@@ -1404,8 +1399,8 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 			delay 1
 			try
 				set YTDL_simulate_log to read POSIX file YTDL_simulate_file as «class utf8»
-			on error errmsg
-				display dialog "Error in reading simulate file: " & YTDL_simulate_file & return & "The error reported was " & errmsg
+			on error errMSG
+				display dialog "Error in reading simulate file: " & YTDL_simulate_file & return & "The error reported was " & errMSG
 			end try
 		end if
 	end if
@@ -1416,7 +1411,7 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 	set YTDL_simulate_log to run_Utilities_handlers's replace_chars(YTDL_simulate_log, "NA#", "") -- Removes placeholder when there is no is_live returned by simulate
 	
 	-- *******************************************************************************************************************************************************
-	-- v1.24 - trap errors caused by SBS OnDemand problem - waiting for YT-DLP fix
+	-- v1.24 - trap errors caused by SBS OnDemand problem - v1.25 - yt-dlp is fixed but, leaving in place in case fix is undone by SBS
 	set is_SBS_bug_page to false
 	-- *******************************************************************************************************************************************************
 	-- Try to exclude errors caused by iView URL that bang an error but need to be processed anyway - advise user of other errors
@@ -1514,21 +1509,6 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 				error number -128
 			end if
 			main_dialog()
-		else if URL_user_entered contains "/ondemand/movie/" then
-			-- yt-dlp/youtube-dl can download from standard SBS movie pages if the URL is reformed using the ID
-			set AppleScript's text item delimiters to "/"
-			set SBS_movie_ID to text 1 thru -2 of (last text item of URL_user_entered)
-			set URL_user_entered to quoted form of ("https://www.sbs.com.au/ondemand/watch/" & SBS_movie_ID)
-			set AppleScript's text item delimiters to ""
-			-- Now have the correct URL - simulate again to get file name into simulate file - using standard output template as SBS live streams not working as yet so, no point
-			do shell script shellPath & "cd " & quoted form of downloadsFolder_Path & " ; export LC_CTYPE=UTF-8 ; " & DL_Use_YTDLP & " --get-filename " & YTDL_credentials & URL_user_entered & " " & YTDL_output_template & " > /dev/null" & " &> " & YTDL_simulate_file
-			-- Added delay as one user gets end of file errors which might be due to simulate file not being ready
-			delay 1
-			try
-				set YTDL_simulate_log to read POSIX file YTDL_simulate_file as «class utf8»
-			on error errmsg
-				display dialog "Error in reading simulate file: " & YTDL_simulate_file & return & "The error reported was " & errmsg
-			end try
 		else
 			set check_URL_ID to last word of URL_user_entered
 			set length_check_URL_ID to length of check_URL_ID
@@ -1540,7 +1520,7 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 			end try
 			
 			-- *******************************************************************************************************************************************************
-			-- v1.24 - Workaround for SBS bug in YT-DLP - form up URL and get file name - single URL for a particular video
+			-- Form up URL and get file name - single URL for a particular video
 			if is_SBS_bug_page is true then
 				set URL_user_entered to ("https://www.sbs.com.au/api/v3/video_smil?id=" & check_URL_ID)
 				set SBS_show_name to "This is a bug URL"
@@ -1559,9 +1539,6 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 				set YTDL_log_file to MacYTDL_preferences_path & "youtube-dl_log-" & download_filename_new & "-" & download_date_time & ".txt"
 				if YTDL_remux_format contains "recode" then set YTDL_remux_format to ""
 				set YTDL_output_template to "-o '" & download_filename_new & ".%(ext)s'"
-				
-				-- *******************************************************************************************************************************************************
-				
 				-- If URL ends in a video ID and is not a "watch" URL, then user copied URL from an SBS "play" button - form into a watch URL and process without calling SBS chooser
 			else if is_ID is true and length_check_URL_ID is greater than 7 and URL_user_entered does not contain "watch" then
 				set URL_user_entered to ("https://www.sbs.com.au/ondemand/watch/" & check_URL_ID)
@@ -1623,6 +1600,9 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 			if warning_quit_or_continue is theButtonContinueLabel then -- <= Ignore warning - try DL - get filename from last paragraph of simulate file
 				set_File_Names(shellPath, YTDL_simulate_log, URL_user_entered, ABC_show_name, SBS_show_name, DL_Use_YTDLP)
 			else if warning_quit_or_continue is theWarningButtonsMainLabel then -- <= Stop and return to Main dialog
+				if skip_Main_dialog is true then
+					error number -128
+				end if
 				main_dialog()
 			end if
 		else
@@ -1635,7 +1615,7 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 	-- If user asked for subtitles, get ytdl/yt-dlp to check whether they are available - if not, warn user - if available, check against format requested - convert if different
 	-- v1.21.2, added URL_user_entered to variables specifically passed - fixes SBS OnDemand subtitles error - don't know why
 	if subtitles_choice is true or DL_YTAutoST is true then
-		set YTDL_subtitles to check_subtitles_download_available(shellPath, diag_Title, subtitles_choice, URL_user_entered, theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel, MacYTDL_custom_icon_file, DL_Use_YTDLP)
+		set YTDL_subtitles to check_subtitles_download_available(shellPath, diag_Title, subtitles_choice, URL_user_entered, theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel, MacYTDL_custom_icon_file, DL_Use_YTDLP, theBestLabel)
 	end if
 	
 	-- Call the formats chooser if in settings and no conflict with other settings - chosen_formats_list is returned containing the format ids to be requested and whether merged or not
@@ -1881,7 +1861,7 @@ on download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_
 	do shell script "osascript -s s " & myMonitorScriptAsString & " " & my_params & " " & " > /dev/null 2> /dev/null &"
 	
 	-- TESTING CALL - Call the download Monitor script for testing - this formulation gets any errors back from Monitor, but holds execution until Monitor dialog is dismissed
-	--do shell script "osascript -s s " & myMonitorScriptAsString & " " & my_params
+	-- do shell script "osascript -s s " & myMonitorScriptAsString & " " & my_params
 	
 	-- After download, reset URLs so text box is blank and old URL not used again, ABC & SBS show name and number_ABC_SBS_episodes so that correct file name is used for next download
 	set URL_user_entered to ""
@@ -1929,7 +1909,7 @@ end check_cookies_file
 --
 ----------------------------------------------------------------------------------------------------
 -- Check that download folder is available - in case user has not mounted an external volume or has moved/renamed the folder - user must cancel or make folder available
-on check_download_folder(folder_chosen)
+on check_download_folder(folder_chosen, theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel, diag_Title, MacYTDL_custom_icon_file, skip_Main_dialog)
 	if folder_chosen = downloadsFolder_Path then
 		set downloadsFolder_Path_posix to (POSIX file downloadsFolder_Path)
 		try
@@ -1938,11 +1918,15 @@ on check_download_folder(folder_chosen)
 			set theDownloadFolderMissingLabel to localized string "Your download folder is not available. You can make it available then click on Continue, return to set a new download folder or quit." from table "MacYTDL"
 			set quit_or_return to button returned of (display dialog theDownloadFolderMissingLabel buttons {theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel} default button 2 cancel button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600)
 			if quit_or_return is theButtonReturnLabel then
-				main_dialog()
+				if skip_Main_dialog is true then
+					error number -128
+				else
+					main_dialog()
+				end if
 			else if quit_or_return is theButtonQuitLabel then
 				quit_MacYTDL()
 			end if
-			check_download_folder(folder_chosen)
+			check_download_folder(folder_chosen, theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel, diag_Title, MacYTDL_custom_icon_file, skip_Main_dialog)
 		end try
 	end if
 	-- If user clicks "Continue" processing returns to after call to this handler and download process commences
@@ -2059,8 +2043,8 @@ on set_File_Names(shellPath, YTDL_simulate_log, URL_user_entered, ABC_show_name,
 			-- v1.24 - added try block as SBS changes can cause a crash - can use same workaround code as above for a single file download
 			try
 				set download_filename to text 1 thru -1 of (do shell script shellPath & "cd " & quoted form of downloadsFolder_Path & " ; export LC_CTYPE=UTF-8 ; " & DL_Use_YTDLP & " --get-filename --ignore-errors " & URL_user_entered & " " & YTDL_output_template)
-			on error errmsg
-				if errmsg contains "ERROR: [ThePlatform]" or errmsg contains "HTTP Error 403: Forbidden" then
+			on error errMSG
+				if errMSG contains "ERROR: [ThePlatform]" or errMSG contains "HTTP Error 403: Forbidden" then
 					set check_URL_ID to last word of URL_user_entered
 					set URL_user_entered to ("https://www.sbs.com.au/api/v3/video_smil?id=" & check_URL_ID)
 					set SBS_show_name to "This is a bug URL"
@@ -2081,7 +2065,7 @@ on set_File_Names(shellPath, YTDL_simulate_log, URL_user_entered, ABC_show_name,
 					set YTDL_output_template to "-o '" & download_filename_new & ".%(ext)s'"
 				else
 					set theSBSsimulateFailedLabel to localized string "Something went wrong trying to download from SBS. The error was: " from table "MacYTDL"
-					display dialog (theSBSsimulateFailedLabel & return & return & errmsg) buttons {theButtonOKLabel} default button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600
+					display dialog (theSBSsimulateFailedLabel & return & return & errMSG) buttons {theButtonOKLabel} default button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600
 					main_dialog()
 				end if
 			end try
@@ -2101,15 +2085,15 @@ on set_File_Names(shellPath, YTDL_simulate_log, URL_user_entered, ABC_show_name,
 			-- v1.24 - added try block as SBS changes can cause a crash - can't use multiple file names in output template - use autonumber instead
 			try
 				set download_filename to text 1 thru -1 of (do shell script shellPath & "cd " & quoted form of downloadsFolder_Path & " ; export LC_CTYPE=UTF-8 ; " & DL_Use_YTDLP & " --get-filename --ignore-errors " & SBS_show_URLs & " " & YTDL_output_template)
-			on error errmsg
-				if errmsg contains "ERROR: [ThePlatform]" or errmsg contains "HTTP Error 403: Forbidden" then
+			on error errMSG
+				if errMSG contains "ERROR: [ThePlatform]" or errMSG contains "HTTP Error 403: Forbidden" then
 					set URL_user_entered to run_Utilities_handlers's replace_chars(URL_user_entered, "https://www.sbs.com.au/ondemand/watch/", "https://www.sbs.com.au/api/v3/video_smil?id=")
 					set YTDL_log_file to MacYTDL_preferences_path & "youtube-dl_log-" & SBS_show_name & "-" & download_date_time & ".txt"
 					--	if YTDL_remux_format contains "recode" then set YTDL_remux_format to ""
 					set YTDL_output_template to "-o '" & SBS_show_name & "-%(autonumber)s.%(ext)s'"
 				else
 					set theSBSsimulateFailedLabel to localized string "Something went wrong trying to download from SBS. The error was: " from table "MacYTDL"
-					display dialog (theSBSsimulateFailedLabel & return & return & errmsg) buttons {theButtonOKLabel} default button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600
+					display dialog (theSBSsimulateFailedLabel & return & return & errMSG) buttons {theButtonOKLabel} default button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600
 					main_dialog()
 				end if
 			end try
@@ -2142,7 +2126,7 @@ end set_File_Names
 -----------------------------------------------------------------------
 -- Handler to check that requested subtitles are available and apply conversion if not - called by download_video() when user requests subtitles or auto-subtitles
 -- Might not need the duplication in this handler - leave till a later release - Handles ABC, SBS show URL and multiple URLs somewhat
-on check_subtitles_download_available(shellPath, diag_Title, subtitles_choice, URL_user_entered, theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel, MacYTDL_custom_icon_file, DL_Use_YTDLP)
+on check_subtitles_download_available(shellPath, diag_Title, subtitles_choice, URL_user_entered, theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel, MacYTDL_custom_icon_file, DL_Use_YTDLP, theBestLabel)
 	-- Initialise the subtitles parameter - will go into the YTDL call - will merging settings for author and auto generated STs - Initialise local vars for use in this handler leaving user's settings unchanged
 	set YTDL_subtitles to ""
 	set author_gen to subtitles_choice
@@ -2411,6 +2395,10 @@ on set_settings()
 	set {settings_theCheckBox_Use_Proxy, theTop, ProxyCheckBoxWidth} to create checkbox theCheckboxUseProxyLabel left inset 70 bottom (theTop + 3) max width 100 initial state DL_Use_Proxy
 	set theFieldProxyURLPlaceholderLabel to localized string "No URL set" from table "MacYTDL"
 	set {settings_theField_ProxyURL, theTop} to create field DL_Proxy_URL left inset (ProxyCheckBoxWidth + 70) bottom (theTop - 20) field width 250 placeholder text theFieldProxyURLPlaceholderLabel
+	set theCheckboxForceOWLabel to localized string "Force overwrites" from table "MacYTDL"
+	set {settings_theCheckbox_OverWrites, theTop} to create checkbox theCheckboxForceOWLabel left inset 70 bottom (theTop + 3) max width 250 initial state DL_over_writes
+	set theCheckboxGetFormatsListLabel to localized string "Get formats list" from table "MacYTDL"
+	set {settings_theCheckbox_Formats, theTop} to create checkbox theCheckboxGetFormatsListLabel left inset 70 bottom (theTop + 3) max width 250 initial state DL_formats_list
 	set theCheckboxKeepOriginalLabel to localized string "Keep original video and/or subtitles file" from table "MacYTDL"
 	set {settings_theCheckbox_Original, theTop} to create checkbox theCheckboxKeepOriginalLabel left inset 70 bottom (theTop + 3) max width 200 initial state DL_Remux_original
 	set theLabeledPopupRemuxFormatLabel to localized string "Remux format:" from table "MacYTDL"
@@ -2419,16 +2407,12 @@ on set_settings()
 	else
 		set {settings_thePopUp_RemuxFormat, settings_remuxlabel, theTop} to create labeled popup {theNoRemuxLabel, "mp4", "mkv", "flv", "webm", "avi", "ogg"} left inset 70 bottom (theTop + 3) popup width 100 max width 200 label text theLabeledPopupRemuxFormatLabel popup left 70 initial choice DL_Remux_format
 	end if
-	set theCheckboxGetFormatsListLabel to localized string "Get formats list" from table "MacYTDL"
-	set {settings_theCheckbox_Formats, theTop} to create checkbox theCheckboxGetFormatsListLabel left inset 70 bottom (theTop + 3) max width 250 initial state DL_formats_list
 	set theCheckboxMetadataLabel to localized string "Add metadata" from table "MacYTDL"
 	set {settings_theCheckbox_Metadata, theTop} to create checkbox theCheckboxMetadataLabel left inset 70 bottom (theTop + 3) max width 250 initial state DL_Add_Metadata
 	set theCheckboxEmbedThumbsLabel to localized string "Embed thumbnails" from table "MacYTDL"
 	set {settings_theCheckbox_ThumbEmbed, theTop} to create checkbox theCheckboxEmbedThumbsLabel left inset 280 bottom (theTop + 1) max width 250 initial state DL_Thumbnail_Embed
 	set theCheckboxWriteThumbsLabel to localized string "Write thumbnails" from table "MacYTDL"
 	set {settings_theCheckbox_ThumbWrite, theTop} to create checkbox theCheckboxWriteThumbsLabel left inset 70 bottom (theTop - 18) max width 250 initial state DL_Thumbnail_Write
-	set theCheckboxForceOWLabel to localized string "Force overwrites" from table "MacYTDL"
-	set {settings_theCheckbox_OverWrites, theTop} to create checkbox theCheckboxForceOWLabel left inset 70 bottom (theTop + 3) max width 250 initial state DL_over_writes
 	set theLabeledPopupCodecLabel to localized string "Audio format:" from table "MacYTDL"
 	set {settings_thePopup_AudioCodec, settingsCodecLabel, theTop} to create labeled popup {theBestLabel, "aac", "flac", "mp3", "m4a", "opus", "vorbis", "wav"} left inset 220 bottom (theTop - 2) popup width 90 max width 200 label text theLabeledPopupCodecLabel popup left 220 initial choice DL_audio_codec
 	set theCheckboxAudioOnlyLabel to localized string "Audio only" from table "MacYTDL"
@@ -2585,7 +2569,8 @@ on set_settings()
 					tell property list file MacYTDL_prefs_file
 						set value of property list item "Auto_Download" to settings_auto_download_choice
 					end tell
-					if show_yt_dlp is "yt-dlp" or show_yt_dlp is "yt-dlp-legacy" then -- This might not work on macOS earlier than 10.15
+					-- if show_yt_dlp is "yt-dlp" or show_yt_dlp is "yt-dlp-legacy" then -- This do not work properly on macOS earlier than 10.15
+					if show_yt_dlp is "yt-dlp" then
 						set new_value to "Download Video Now"
 						tell property list file Service_file_plist
 							set value of property list item "default" of property list item "NSMenuItem" of property list item 1 of property list items of contents to new_value
@@ -2604,7 +2589,8 @@ on set_settings()
 						tell property list file MacYTDL_prefs_file
 							set value of property list item "Auto_Download" to settings_auto_download_choice
 						end tell
-						if show_yt_dlp is "yt-dlp" or show_yt_dlp is "yt-dlp-legacy" then
+						-- if show_yt_dlp is "yt-dlp" or show_yt_dlp is "yt-dlp-legacy" then -- This do not work properly on macOS earlier than 10.15
+						if show_yt_dlp is "yt-dlp" then
 							set new_value to "Download Video Now"
 							tell property list file Service_file_plist
 								set value of property list item "default" of property list item "NSMenuItem" of property list item 1 of property list items of contents to new_value
@@ -2652,10 +2638,17 @@ on set_settings()
 		end tell
 		
 		-- Check that user has supplied cookies location if use cookies is on
-		if settings_use_cookies_choice is true and settings_cookies_location_choice is "/No Cookie File" then
-			set theMustProvideProxyLocationLabel to localized string "Sorry, you need to give the location of your cookies file." from table "MacYTDL"
-			display dialog theMustProvideProxyLocationLabel with title diag_Title buttons {theButtonOKLabel} default button 1 with icon file MacYTDL_custom_icon_file giving up after 600
+		set theNoCookieFileLabel to localized string "No Cookie File" from table "MacYTDL"
+		if settings_use_cookies_choice is true and settings_cookies_location_choice is ("/" & theNoCookieFileLabel) then
+			set theMustProvideCookiesLocationLabel to localized string "Sorry, you need to give the location of your cookies file." from table "MacYTDL"
+			display dialog theMustProvideCookiesLocationLabel with title diag_Title buttons {theButtonOKLabel} default button 1 with icon file MacYTDL_custom_icon_file giving up after 600
 			set_settings()
+		end if
+		-- Ask if user wants to blank out the cookies location
+		if settings_use_cookies_choice is false and DL_Use_Cookies is true then
+			set theAskBlankCookiesLocationLabel to localized string "You have turned off \"Use cookies\". Do you wish to remove the current cookies location ?" from table "MacYTDL"
+			set blankCookiesLocation to button returned of (display dialog theAskBlankCookiesLocationLabel with title diag_Title buttons {theButtonNoLabel, theButtonYesLabel} default button 1 with icon file MacYTDL_custom_icon_file giving up after 600)
+			if blankCookiesLocation is theButtonYesLabel then set settings_cookies_location_choice to ("/" & theNoCookieFileLabel)
 		end if
 		-- Now can go ahead and set the cookies settings
 		tell application "System Events"
@@ -2815,24 +2808,29 @@ on check_ytdl(show_yt_dlp)
 	end if
 	try
 		set YTDL_releases_page to do shell script "curl " & YTDL_site_URL & " | textutil -stdin -stdout -format html -convert txt -encoding UTF-8 "
-	on error errmsg
+	on error errMSG
 		set theYTDLCurlErrorLabel1 to localized string "There was an error with looking for the " from table "MacYTDL"
 		set theYTDLCurlErrorLabel2 to localized string " web page. The error was: " from table "MacYTDL"
 		set theYTDLCurlErrorLabel3 to localized string ", and the URL that produced the error was: " from table "MacYTDL"
 		set theYTDLCurlErrorLabel4 to localized string "Try again later and/or send a message to macytdl@gmail.com with the details." from table "MacYTDL"
-		set theYTDLCurlErrorLabel to theYTDLCurlErrorLabel1 & show_yt_dlp & theYTDLCurlErrorLabel2 & errmsg & theYTDLCurlErrorLabel3 & YTDL_site_URL & ". " & theYTDLCurlErrorLabel4
+		set theYTDLCurlErrorLabel to theYTDLCurlErrorLabel1 & show_yt_dlp & theYTDLCurlErrorLabel2 & errMSG & theYTDLCurlErrorLabel3 & YTDL_site_URL & ". " & theYTDLCurlErrorLabel4
 		display dialog theYTDLCurlErrorLabel buttons {theButtonOKLabel} default button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600
 		main_dialog()
 	end try
 	
-	set installedYTDL_version to do shell script ytdlp_file & " --version"
-	
+	-- Really should not need this as the plist file should have the correct version number in installed YTDL_version - but this makes sure
+	if DL_Use_YTDLP is "yt-dlp" or DL_Use_YTDLP is "yt-dlp-legacy" then
+		set installedYTDL_version to do shell script ytdlp_file & " --version"
+	else
+		set installedYTDL_version to do shell script youtubedl_file & " --version"
+	end if
 	if installedYTDL_version is not YTDL_version then
 		tell application "System Events"
 			tell property list file MacYTDL_prefs_file
 				set value of property list item "YTDL_YTDLP_version" to installedYTDL_version
 			end tell
 		end tell
+		set YTDL_version to installedYTDL_version -- Added on 9/6/23 - seems like a good idea
 	end if
 	
 	set theYTDLUpToDateLabela to localized string " is up to date. Your current version is " from table "MacYTDL"
@@ -2857,9 +2855,9 @@ on check_ytdl(show_yt_dlp)
 		set AppleScript's text item delimiters to ""
 		if YTDL_version_check is not equal to installedYTDL_version or homebrew_ytdlp_exists is true then
 			if switch_flag is true then
-				set YTDL_update_text to "To switch to " & show_yt_dlp & " it will need to be installed. Would you like to download it now ?"
+				set YTDL_update_text to "To switch to " & show_yt_dlp & " it will need to be installed. Would you like to install it now ?"
 			else
-				set YTDL_update_text to "A new version of " & show_yt_dlp & " is available. You have version " & installedYTDL_version & ". The current version is " & YTDL_version_check & return & return & "Would you like to download it now ?"
+				set YTDL_update_text to "A new version of " & show_yt_dlp & " is available. You have version " & installedYTDL_version & ". The current version is " & YTDL_version_check & return & return & "Would you like to install it now ?"
 			end if
 			tell me to activate
 			set YTDL_install_answ to button returned of (display dialog YTDL_update_text buttons {theButtonNoLabel, theButtonYesLabel} default button 2 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600)
@@ -2874,9 +2872,9 @@ on check_ytdl(show_yt_dlp)
 						do shell script "rm /usr/local/bin/yt-dlp" with administrator privileges
 					end if
 					do shell script "curl -L " & YTDL_site_URL & "/download/" & YTDL_version_check & "/" & name_of_executable & " -o /usr/local/bin/yt-dlp" with administrator privileges
-				on error errmsg
-					if errmsg does not contain "User canceled" then
-						display dialog "There was an error in downloading the YT-DLP update. The error reported was " & errmsg
+				on error errMSG
+					if errMSG does not contain "User canceled" then
+						display dialog "There was an error in downloading the YT-DLP update. The error reported was " & errMSG
 					end if
 					main_dialog()
 				end try
@@ -2895,7 +2893,7 @@ on check_ytdl(show_yt_dlp)
 				set theYTDLUpDatedLabel to localized string " has been updated. Your new version is " from table "MacYTDL"
 				set alert_text_ytdl to show_yt_dlp & theYTDLUpDatedLabel & YTDL_version
 			else
-				set theYTDLOutOfDateLabel to localized string " is out of date. Your current version is " from table "MacYTDL"
+				set theYTDLOutOfDateLabel to localized string " installed has not been changed. Your current version is " from table "MacYTDL"
 				set alert_text_ytdl to show_yt_dlp & theYTDLOutOfDateLabel & YTDL_version
 			end if
 		end if
@@ -2939,8 +2937,8 @@ on check_ffmpeg_intel()
 	set ffmpeg_site to "https://evermeet.cx/pub/ffmpeg/"
 	try
 		set FFmpeg_page to do shell script "curl " & ffmpeg_site & " | textutil -stdin -stdout -format html -convert txt -encoding UTF-8 "
-	on error errmsg
-		set theFFmpegCurlErrorLabel to localized string "There was an error with looking for the FFmpeg web page. The error was: " & errmsg & ", and the URL that produced the error was: " & ffmpeg_site & ". Try again later and/or send a message to macytdl@gmail.com with the details." from table "MacYTDL"
+	on error errMSG
+		set theFFmpegCurlErrorLabel to localized string "There was an error with looking for the FFmpeg web page. The error was: " & errMSG & ", and the URL that produced the error was: " & ffmpeg_site & ". Try again later and/or send a message to macytdl@gmail.com with the details." from table "MacYTDL"
 		display dialog theFFmpegCurlErrorLabel buttons {theButtonOKLabel} default button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600
 		main_dialog()
 	end try
@@ -2994,8 +2992,8 @@ on check_ffmpeg_arm()
 	set ffmpeg_site to "https://ffmpeg.martin-riedl.de"
 	try
 		set FFmpeg_page to do shell script "curl " & ffmpeg_site & " | textutil -stdin -stdout -format html -convert txt -encoding UTF-8 "
-	on error errmsg
-		set theFFmpegCurlErrorLabel to localized string "There was an error with looking for the FFmpeg web page. The error was: " & errmsg & ", and the URL that produced the error was: " & ffmpeg_site & ". Try again later and/or send a message to macytdl@gmail.com with the details." from table "MacYTDL"
+	on error errMSG
+		set theFFmpegCurlErrorLabel to localized string "There was an error with looking for the FFmpeg web page. The error was: " & errMSG & ", and the URL that produced the error was: " & ffmpeg_site & ". Try again later and/or send a message to macytdl@gmail.com with the details." from table "MacYTDL"
 		display dialog theFFmpegCurlErrorLabel buttons {theButtonOKLabel} default button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600
 		main_dialog()
 	end try
@@ -3066,7 +3064,12 @@ on utilities()
 		end if
 	end tell
 	
-	-- Set youtube-dl/yt-dlp and FFmpeg version installed text - to show in Utilities dialog
+	-- Set youtube-dl/yt-dlp and FFmpeg version installed text - to show in Utilities dialog - use number of items to set nightly/stable build flag
+	set AppleScript's text item delimiters to "."
+	set version_Kind_Check to count of text items in YTDL_version
+	set AppleScript's text item delimiters to ""
+	set ytdlp_kind to "stable"
+	if version_Kind_Check is 4 then set ytdlp_kind to "nightly"
 	set theVersionInstalledLabel to localized string "Installed:" from table "MacYTDL"
 	set theYTDLVersionInstalledlabel to theVersionInstalledLabel & " v" & YTDL_version
 	set FFMpeg_version_installed to theVersionInstalledLabel & " v" & ffmpeg_version
@@ -3109,7 +3112,7 @@ on utilities()
 	set ffmpeg_version_arch to text item 4 of ffmpeg_version_long
 	set AppleScript's text item delimiters to ""
 	set switch_FFmpeg to "No"
-	-- Added in v1.22 - show FFmpeg arch switcher if user on Apple Silicon
+	-- v1.22 - show FFmpeg arch switcher if user on Apple Silicon
 	set installed_FFmpeg_arch to "ARM"
 	if ffmpeg_version_arch is "tessus" then
 		set installed_FFmpeg_arch to "Intel"
@@ -3117,6 +3120,7 @@ on utilities()
 	else
 		set new_FFmpeg_arch to "Intel"
 	end if
+	
 	-- v1.24 - disable FFmpeg items if Homebrew installs are in place
 	if user_system_arch is "arm64" and homebrew_ffmpeg_exists is false then
 		set theCheckBoxSwitchFFmpegLabel2 to localized string "Switch FFmpeg to" from table "MacYTDL"
@@ -3139,7 +3143,7 @@ on utilities()
 	set theCheckBoxRestoreSettingsLabel to localized string "Restore settings" from table "MacYTDL"
 	set {utilities_theCheckbox_Restore_Settings, theTop} to create checkbox theCheckBoxRestoreSettingsLabel & "  " & current_settings_installed left inset accViewInset bottom (theTop + 5) max width 200
 	set theCheckBoxSaveSettingsLabel to localized string "Save current settings" from table "MacYTDL"
-	set {utilities_theCheckbox_Save_Settings, theTop} to create checkbox theCheckBoxSaveSettingsLabel left inset accViewInset bottom (theTop + 5) max width 200
+	set {utilities_theCheckbox_Save_Settings, theTop} to create checkbox theCheckBoxSaveSettingsLabel left inset accViewInset bottom (theTop + 5) max width 250
 	
 	-- v1.24 - Show YT-DLP switcher if user currently using youtube-dl
 	if DL_Use_YTDLP is "youtube-dl" then
@@ -3155,14 +3159,28 @@ on utilities()
 	set {utilities_theCheckbox_YTDL_release, theTop} to create checkbox theCheckBoxOpenYTDLLabel left inset accViewInset bottom (theTop + 5) max width 200
 	
 	-- v1.24 - Hide YT-DLP updater if user currently using Homebrew or youtube-dl
+	-- v1.25 - Provide for yt-dlp nightly builds
 	if ytdlp_exists is true and (DL_Use_YTDLP is "yt-dlp" or DL_Use_YTDLP is "yt-dlp-legacy") then
-		set theCheckBoxCheckYTDLLabel to (localized string "Check for" from table "MacYTDL") & " " & utilities_DL_Use_YTDLP & " " & (localized string "update" from table "MacYTDL")
-		set theCheckBoxCheckYTDLversion to theCheckBoxCheckYTDLLabel & "   " & "(" & theYTDLVersionInstalledlabel & ")"
-		set {utilities_theCheckbox_YTDL_Check, theTop} to create checkbox theCheckBoxCheckYTDLversion left inset accViewInset bottom (theTop + 5) max width 250
+		if ytdlp_kind is "stable" then
+			set theCheckBoxCheckYTDLNightlyLabel to (localized string "Install" from table "MacYTDL") & " " & utilities_DL_Use_YTDLP & " " & (localized string "nightly build" from table "MacYTDL")
+			set theCheckBoxCheckYTDLNightlyVersion to theCheckBoxCheckYTDLNightlyLabel
+			set theCheckBoxCheckYTDLLabel to (localized string "Update" from table "MacYTDL") & " " & utilities_DL_Use_YTDLP & " " & (localized string "stable build" from table "MacYTDL")
+			set theCheckBoxCheckYTDLversion to theCheckBoxCheckYTDLLabel & "  " & "(" & theYTDLVersionInstalledlabel & ")"
+			set minWidth to 465
+		end if
+		if ytdlp_kind is "nightly" then
+			set theCheckBoxCheckYTDLNightlyLabel to (localized string "Update" from table "MacYTDL") & " " & utilities_DL_Use_YTDLP & " " & (localized string "nightly build" from table "MacYTDL")
+			set theCheckBoxCheckYTDLNightlyVersion to theCheckBoxCheckYTDLNightlyLabel & "  " & "(" & theYTDLVersionInstalledlabel & ")"
+			set theCheckBoxCheckYTDLLabel to (localized string "Install" from table "MacYTDL") & " " & utilities_DL_Use_YTDLP & " " & (localized string "stable build" from table "MacYTDL")
+			set theCheckBoxCheckYTDLversion to theCheckBoxCheckYTDLLabel
+			set minWidth to 500
+		end if
+		set {utilities_theMatrix_YTDL_Check, theMatrixLabel, theTop, theMatrixWidth} to create labeled matrix {"Do not update yt-dlp", theCheckBoxCheckYTDLversion, theCheckBoxCheckYTDLNightlyVersion} initial choice 1 bottom (theTop + 5) label text "Update YT-DLP" matrix left 110 max width 600
 	else
 		set {utilities_theCheckbox_YTDL_Check, theTop} to create label " " left inset accViewInset + 5 bottom (theTop - 17) max width minWidth - 100 aligns left aligned with multiline
+		set {theMatrixLabel, theTop} to create label " " left inset accViewInset + 5 bottom (theTop - 17) max width minWidth - 100 aligns left aligned with multiline
+		set {utilities_theMatrix_YTDL_Check, theTop} to create label " " left inset accViewInset + 5 bottom (theTop - 17) max width minWidth - 100 aligns left aligned with multiline
 	end if
-	
 	set theCheckBoxOpenDLFolderLabel to localized string "Open download folder" from table "MacYTDL"
 	set {utilities_theCheckbox_DL_Open, theTop} to create checkbox theCheckBoxOpenDLFolderLabel left inset accViewInset bottom (theTop + 5) max width 250
 	set theCheckBoxOpenLogFolderLabel to localized string "Open log folder" from table "MacYTDL"
@@ -3170,12 +3188,11 @@ on utilities()
 	set {utilities_instruct, theTop} to create label instructions_text left inset accViewInset + 5 bottom (theTop + 10) max width minWidth - 100 aligns left aligned with multiline
 	set {MacYTDL_icon, theTop} to create image view MacYTDL_custom_icon_file_posix left inset 0 bottom theTop - 50 view width 64 view height 64 scale image scale proportionally
 	set {utilities_prompt, theTop} to create label utilities_diag_prompt left inset 0 bottom (theTop) max width minWidth aligns center aligned with bold type
-	set utilities_allControls to {theUtilitiesRule, utilities_theCheckbox_Service_Install, utilities_theCheckbox_Atomic_Install, utilities_theCheckbox_SwitchFFmpeg, utilities_theCheckbox_FFmpeg_Check, utilities_theCheckbox_MacYTDL_Check, utilities_theCheckbox_Return_Defaults, utilities_theCheckbox_Save_Settings, utilities_theCheckbox_Restore_Settings, utilities_theCheckbox_Switch_Scripts, utilities_theCheckbox_YTDL_release, utilities_theCheckbox_YTDL_Check, utilities_theCheckbox_DL_Open, utilities_theCheckbox_Logs_Open, MacYTDL_icon, utilities_instruct, utilities_prompt}
+	set utilities_allControls to {theUtilitiesRule, utilities_theCheckbox_Service_Install, utilities_theCheckbox_Atomic_Install, utilities_theCheckbox_SwitchFFmpeg, utilities_theCheckbox_FFmpeg_Check, utilities_theCheckbox_MacYTDL_Check, utilities_theCheckbox_Return_Defaults, utilities_theCheckbox_Restore_Settings, utilities_theCheckbox_Save_Settings, utilities_theCheckbox_Switch_Scripts, utilities_theCheckbox_YTDL_release, theMatrixLabel, utilities_theMatrix_YTDL_Check, utilities_theCheckbox_DL_Open, utilities_theCheckbox_Logs_Open, MacYTDL_icon, utilities_instruct, utilities_prompt}
 	
-	-- Make sure MacYTDL is in front and show dialog
+	-- Make sure MacYTDL is in front and show dialog with correct width
 	tell me to activate
 	set {utilities_button_returned, utilities_button_number_returned, utilities_controls_results, finalPosition} to display enhanced window diag_Title buttons theButtons acc view width minWidth acc view height theTop acc view controls utilities_allControls initial position window_Position
-	--set {utilities_button_returned, utilities_button_number_returned, utilities_controls_results, finalPosition} to display enhanced window diag_Title buttons theButtons acc view width accViewWidth acc view height theTop acc view controls utilities_allControls initial position window_Position
 	
 	-- Has user moved the MacYTDL window - if so, save new position
 	if finalPosition is not equal to window_Position then
@@ -3195,16 +3212,17 @@ on utilities()
 		set utilities_FFmpeg_check_choice to item 5 of utilities_controls_results -- <= Check FFmpeg version choice
 		set utilities_MacYTDL_check_choice to item 6 of utilities_controls_results -- <= Check MacYTDL version choice
 		set utilities_Return_Defaults_choice to item 7 of utilities_controls_results -- <= Return to default settings choice
-		set utilities_Save_Settings_choice to item 8 of utilities_controls_results -- <= Save current settings choice
-		set utilities_Restore_Settings_choice to item 9 of utilities_controls_results -- <= Restore saved settings choice
+		set utilities_Restore_Settings_choice to item 8 of utilities_controls_results -- <= Restore saved settings choice
+		set utilities_Save_Settings_choice to item 9 of utilities_controls_results -- <= Save current settings choice
 		set utilities_Switch_choice to item 10 of utilities_controls_results -- <= Switch downloaders choice
 		set utilities_YTDL_webpage_choice to item 11 of utilities_controls_results -- <= Show YTDL/yt-dlp web page choice
-		set utilities_YTDL_check_choice to item 12 of utilities_controls_results -- <= Check YTDL/yt-dlp version choice
-		set utilities_DL_folder_choice to item 13 of utilities_controls_results -- <= Open download folder choice
-		set utilities_log_folder_choice to item 14 of utilities_controls_results -- <= Open log folder choice
-		--set utilities_choice_15 to item 15 of utilities_controls_results -- <= Missing value [the icon]
-		--set utilities_choice_16 to item 16 of utilities_controls_results -- <= Contains the "Instructions" text
-		--set utilities_choice_17 to item 17 of utilities_controls_results -- <= Contains the "Utilities" heading
+		--set utilities_choice_12 to item 12 of utilities_controls_results -- <= Contains matrix label text
+		set utilities_YTDL_check_choice to item 13 of utilities_controls_results -- <= Check/Install yt-dlp stable/nightly build
+		set utilities_DL_folder_choice to item 14 of utilities_controls_results -- <= Open download folder choice
+		set utilities_log_folder_choice to item 15 of utilities_controls_results -- <= Open log folder choice
+		--set utilities_choice_16 to item 16 of utilities_controls_results -- <= Missing value [the icon]
+		--set utilities_choice_17 to item 17 of utilities_controls_results -- <= Contains the "Instructions" text
+		--set utilities_choice_18 to item 18 of utilities_controls_results -- <= Contains the "Utilities" heading
 		
 		-- Open log folder
 		if utilities_log_folder_choice is true then
@@ -3218,7 +3236,9 @@ on utilities()
 		
 		-- Open downloads folder - make sure it's available
 		if utilities_DL_folder_choice is true then
-			check_download_folder(downloadsFolder_Path)
+			-- Tell utilities handler that it should return to main_dialog when finished - auto_download tells utilities to skip main and just close	
+			set skip_Main_dialog to false
+			check_download_folder(downloadsFolder_Path, theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel, diag_Title, MacYTDL_custom_icon_file, skip_Main_dialog)
 			-- Open the downloads folder in a Finder window positioned away from the MacYTDL main dialog which will re-appear - Assistive Access not needed as Finder windows have position properties
 			tell application "Finder"
 				activate
@@ -3227,11 +3247,25 @@ on utilities()
 			end tell
 		end if
 		
+		-- Do selected combination of YT-DLP and FFmpeg version checks - Provide for each possible combination of choices
 		-- Need to show the version checked dialog before returning to Main dialog
-		-- Do selected combination of version checks - Provide for each possible combination of check boxes
-		if utilities_YTDL_check_choice is true and utilities_FFmpeg_check_choice is true then
+		-- v.25 - This section redesigned to handle installation/update of YT-DLP nightly builds
+		if utilities_YTDL_check_choice contains "build" and utilities_FFmpeg_check_choice is true then
 			set alert_text_ytdl to "NotSwitching"
-			check_ytdl(DL_Use_YTDLP)
+			if utilities_YTDL_check_choice contains "stable" then
+				check_ytdl(DL_Use_YTDLP)
+			else if utilities_YTDL_check_choice contains "nightly" then
+				-- Install nightly build
+				do shell script shellPath & " yt-dlp --update-to nightly" with administrator privileges
+				set YTDL_version to do shell script shellPath & " yt-dlp --version"
+				tell application "System Events"
+					tell property list file MacYTDL_prefs_file
+						set value of property list item "YTDL_YTDLP_version" to YTDL_version
+					end tell
+				end tell
+				set theYTDLUpDatedLabel to localized string "has been updated to the most recent nightly build. Your new version is " from table "MacYTDL"
+				set alert_text_ytdl to "yt-dlp " & theYTDLUpDatedLabel & YTDL_version
+			end if
 			if ffmpeg_version is "Not installed" then
 				run_Utilities_handlers's install_ffmpeg_ffprobe(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os, user_system_arch)
 				set theFFmpegProbeInstalledAlertLabel to localized string "FFmpeg and FFprobe have been installed." from table "MacYTDL"
@@ -3241,7 +3275,7 @@ on utilities()
 			end if
 			tell me to activate
 			display dialog alert_text_ytdl & return & alert_text_ffmpeg with title diag_Title buttons {theButtonOKLabel} default button 1 with icon file MacYTDL_custom_icon_file giving up after 600
-		else if utilities_FFmpeg_check_choice is true and utilities_YTDL_check_choice is not true then
+		else if utilities_FFmpeg_check_choice is true and utilities_YTDL_check_choice contains "Do not update" then
 			if ffmpeg_version is "Not installed" then
 				run_Utilities_handlers's install_ffmpeg_ffprobe(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os, user_system_arch)
 				set theFFmpegProbeInstalledAlertLabel to localized string "FFmpeg and FFprobe have been installed." from table "MacYTDL"
@@ -3251,9 +3285,23 @@ on utilities()
 			end if
 			tell me to activate
 			display dialog alert_text_ffmpeg & return & return with title diag_Title buttons {theButtonOKLabel} default button 1 with icon file MacYTDL_custom_icon_file giving up after 600
-		else if utilities_YTDL_check_choice is true and utilities_FFmpeg_check_choice is not true then
+			-- else if (utilities_YTDL_check_choice contains "Update yt-dlp stable" and utilities_FFmpeg_check_choice is not true then
+		else if utilities_YTDL_check_choice contains "build" and utilities_FFmpeg_check_choice is not true then
 			set alert_text_ytdl to "NotSwitching"
-			check_ytdl(DL_Use_YTDLP)
+			if utilities_YTDL_check_choice contains "stable" then
+				check_ytdl(DL_Use_YTDLP)
+			else if utilities_YTDL_check_choice contains "nightly" then
+				-- Install nightly build
+				do shell script shellPath & " yt-dlp --update-to nightly" with administrator privileges
+				set YTDL_version to do shell script shellPath & " yt-dlp --version"
+				tell application "System Events"
+					tell property list file MacYTDL_prefs_file
+						set value of property list item "YTDL_YTDLP_version" to YTDL_version
+					end tell
+				end tell
+				set theYTDLUpDatedLabel to localized string "has been updated to the most recent nightly build. Your new version is " from table "MacYTDL"
+				set alert_text_ytdl to "yt-dlp " & theYTDLUpDatedLabel & YTDL_version
+			end if
 			tell me to activate
 			display dialog alert_text_ytdl & return with title diag_Title buttons {theButtonOKLabel} default button 1 with icon file MacYTDL_custom_icon_file giving up after 600
 		end if
@@ -3397,7 +3445,9 @@ on utilities()
 		
 		-- Check for MacYTDL update
 		if utilities_MacYTDL_check_choice is true then
-			check_download_folder(downloadsFolder_Path)
+			-- Tell utilities handler that it should return to main_dialog when finished - auto_download tells utilities to skip main and just close	
+			set skip_Main_dialog to false
+			check_download_folder(downloadsFolder_Path, theButtonQuitLabel, theButtonReturnLabel, theButtonContinueLabel, diag_Title, MacYTDL_custom_icon_file, skip_Main_dialog)
 			run_Utilities_handlers's check_MacYTDL(downloadsFolder_Path, diag_Title, theButtonOKLabel, theButtonNoLabel, theButtonYesLabel, MacYTDL_version, MacYTDL_custom_icon_file)
 		end if
 		
@@ -3630,7 +3680,7 @@ end get_YTDL_credentials
 -- 	Write current URL(s) to batch file
 --
 ---------------------------------------------------
--- Handler to write the user's pasted URL to the batch file for later download
+-- Handler to write the user's pasted URL to the batch file for later download - called from download_video() - returns to main_dialog()
 -- Creates file if need, adds URL and a return each time
 on add_To_Batch(URL_user_entered, download_filename_new, YTDL_remux_format)
 	-- Remove any quotes from around URL_user_entered - so it can be written out to the batch file

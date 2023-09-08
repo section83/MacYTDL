@@ -14,7 +14,7 @@ use script "DialogToolkitMacYTDL" -- Yosemite (10.10) or later
 on run {downloadsFolder_Path_monitor, MacYTDL_preferences_path_monitor, YTDL_TimeStamps_monitor, ytdl_settings_monitor, URL_user_entered_monitor, YTDL_log_file_monitor, download_filename_monitor, download_filename_new_monitor, MacYTDL_custom_icon_file_posix_monitor, monitor_dialog_position, YTDL_simulate_log_monitor, diag_Title_quoted_monitor, is_Livestream_Flag_monitor, screen_width, screen_height, DL_Use_YTDLP, path_to_MacYTDL}
 	
 	
-	--	try
+	-- try
 	
 	
 	--*****************
@@ -358,10 +358,14 @@ on run {downloadsFolder_Path_monitor, MacYTDL_preferences_path_monitor, YTDL_Tim
 			end if
 		end if
 		
-		-- Set variables for Monitor dialog which need to be updated with each repeat		
+		-- Set variables for Monitor dialog which need to be updated with each repeat
+		-- v1.25 – Move intro_label2 down the Monitor ie increase theTop variable if intro_label1 is one line - prevents overlap with image
 		set {intro_label2, theTop} to create label diag_intro_text_2 left inset 0 bottom 5 max width minWidth - 20 aligns center aligned control size small size with multiline
+		set intro_label2_thTop to theTop
 		set {intro_label1, theTop} to create label diag_intro_text_1 left inset 50 bottom theTop + 10 max width minWidth - 51 control size small size
-		set {MacYTDL_icon, theTop} to create image view MacYTDL_custom_icon_file_posix_monitor left inset 0 bottom theTop - 35 view width 45 view height 45 scale image scale proportionally
+		set intro_label1_thTop to theTop
+		if (intro_label1_thTop - intro_label2_thTop) < 25 then set theTop to (theTop + 12) -- Calculate height added by intro_label1
+		set {MacYTDL_icon, theTop} to create image view MacYTDL_custom_icon_file_posix_monitor left inset 0 bottom theTop - 40 view width 40 view height 40 scale image scale proportionally
 		
 		-- Display the monitor dialog - set give up @ 5 seconds so that code can continue the repeat loop - but not if paused
 		if monitor_state_flag is "Downloading" then
@@ -523,10 +527,9 @@ on run {downloadsFolder_Path_monitor, MacYTDL_preferences_path_monitor, YTDL_Tim
 	
 	
 	
-	
-	--	on error errMsg
-	--		display dialog errMsg
-	--	end try
+	-- on error errMsg
+	--	display dialog errMsg
+	-- end try
 	
 	
 	
