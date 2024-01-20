@@ -43,7 +43,7 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 
 An Apple Mac running macOS 10.10 Yosemite and higher is required to use MacYTDL. MacYTDL works in Parallels virtual machines.
 
-_YT-DLP_ is the default for all Macs. Python 3.8 is built into the _YT-DLP_ executable. However, Homebrew and MacPorts installs can be used. Detail is in the [Help](https://github.com/section83/MacYTDL/blob/master/Images/Help.pdf).
+_YT-DLP_ is the default for all Macs. Python 3.8 is built into the _YT-DLP_ executable. However, Homebrew and MacPorts installs can be used. Detail is in the [Help](https://github.com/section83/MacYTDL/Help.pdf).
 
 _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1.
 
@@ -64,7 +64,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1.
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
 
-More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/Images/Help.pdf) (3.97MB).
+More detail is available in [the Help file](https://github.com/section83/MacYTDL/Help.pdf) (4.9MB).
 
 ### Bugs, problems, questions
 To report bugs, problems etc., get a Github account, click on the "Issues" tab above and open a new issue.  Alternatively, open an item in "Discussions" above or send an email to macytdl@gmail.com.
