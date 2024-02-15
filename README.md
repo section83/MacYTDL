@@ -12,15 +12,16 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 ### Features
 
 * Download individual videos and playlists.
-* Download multiple videos separately (in parallel) or in one process (sequentially).
+* Download multiple videos in separate processes, in one process (sequentially) or in one process (parallel).
 * Works with all sites supported by [_YT-DLP_](https://github.com/yt-dlp/yt-dlp).
 * Can switch between _youtube-dl_ and _YT-DLP_ on Macs running macOS from 10.15 to 12.2.1.
 * Can cancel individual downloads.
 * Can pause/resume downloads.
 * By default, will resume interrupted downloads if passed the URL.
 * Can pass through any custom settings to _youtube-dl_ and _YT-DLP_.
-* Settings for level of youtube-dl feedback, download folder, file format, remuxing format, download speed, proxy URL, Quicktime compatibility, custom file name template etc.
+* Settings for level of _YT-DLP_ feedback, download folder, file format, remuxing format, download speed, proxy URL, Quicktime compatibility, custom file name template etc.
 * Batch downloads.
+* PDF help file which describes how to use all MacYDL features.
 * Download a text description of the video.
 * Option to choose from available download formats.
 * Switch between stable and nightly builds of _YT-DLP_.
