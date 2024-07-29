@@ -289,6 +289,14 @@ on auto_Download(MacYTDL_prefs_file, URL_user_entered_clean, path_to_MacYTDL)
 		end if
 	end if
 	
+	-- Get version of current macOS install - used in download_video() to block iView chooser for users on OS X 10.10, 10.11 and 10.12
+	set user_os_version to system version of (system info) as string
+	if user_os_version is less than "10.13" then
+		set user_on_old_os to true
+	else
+		set user_on_old_os to false
+	end if
+	
 	-- Generalise the DL_Use_YTDLP variable - only need the legacy form when updating the yt-dlp script
 	if DL_Use_YTDLP is "yt-dlp-legacy" then
 		set DL_Use_YTDLP to "yt-dlp"
@@ -314,7 +322,7 @@ on auto_Download(MacYTDL_prefs_file, URL_user_entered_clean, path_to_MacYTDL)
 	-- download_video might end up being moved to Utilities
 	-- *****************************************************************************	
 	
-	run_Main_handlers's download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_custom_icon_file_posix, screen_width, screen_height, YTDL_simulate_file, URL_user_entered, URL_user_entered_clean, downloadsFolder_Path, diag_Title, DL_batch_status, DL_Remux_format, DL_subtitles, YTDL_credentials, YTDL_subtitles, YTDL_STEmbed, YTDL_format_pref, YTDL_format, YTDL_remux_format, YTDL_Remux_original, YTDL_description, YTDL_audio_only, YTDL_audio_codec, YTDL_over_writes, YTDL_Thumbnail_Write, YTDL_Thumbnail_Embed, YTDL_metadata, YTDL_limit_rate_value, YTDL_verbose, YTDL_TimeStamps, YTDL_Use_Proxy, YTDL_Use_Cookies, YTDL_Custom_Settings, YTDL_Custom_Template, YTDL_no_part, skip_Main_dialog, theButtonOKLabel, theButtonCancelLabel, theButtonDownloadLabel, theButtonReturnLabel, theButtonQuitLabel, theButtonContinueLabel, YTDL_QT_Compat, DL_Use_YTDLP, theBestLabel, YTDL_Resolution_Limit, YTDL_Use_Parts, YTDL_No_Warnings, ADL_Clear_Batch)
+	run_Main_handlers's download_video(shellPath, path_to_MacYTDL, MacYTDL_custom_icon_file, MacYTDL_custom_icon_file_posix, screen_width, screen_height, YTDL_simulate_file, URL_user_entered, URL_user_entered_clean, downloadsFolder_Path, diag_Title, DL_batch_status, DL_Remux_format, DL_subtitles, YTDL_credentials, YTDL_subtitles, YTDL_STEmbed, YTDL_format_pref, YTDL_format, YTDL_remux_format, YTDL_Remux_original, YTDL_description, YTDL_audio_only, YTDL_audio_codec, YTDL_over_writes, YTDL_Thumbnail_Write, YTDL_Thumbnail_Embed, YTDL_metadata, YTDL_limit_rate_value, YTDL_verbose, YTDL_TimeStamps, YTDL_Use_Proxy, YTDL_Use_Cookies, YTDL_Custom_Settings, YTDL_Custom_Template, YTDL_no_part, skip_Main_dialog, theButtonOKLabel, theButtonCancelLabel, theButtonDownloadLabel, theButtonReturnLabel, theButtonQuitLabel, theButtonContinueLabel, YTDL_QT_Compat, DL_Use_YTDLP, theBestLabel, YTDL_Resolution_Limit, YTDL_Use_Parts, YTDL_No_Warnings, ADL_Clear_Batch, user_on_old_os)
 	
 	--	on error errMsg
 	--		display dialog "Error in auto_Download handler: " & errMsg
@@ -430,11 +438,20 @@ end check_ytdl_installed
 ---------------------------------------------------
 
 -- Handler for forking to correct FFmpeg and FFprobe installer - called by main thread on startup if either or both FF files are missing
-on install_ffmpeg_ffprobe(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os, user_system_arch)
+-- user_on_mid_os is true for users on macOS 10.13, 10.14, 10.15 and 11 who cannot use Riedl binaries which are macOS 12+ only
+-- user_on_old_os is true for users on OS X 10.10, 10.11 and 10.12 who cannot use FFmpeg after v6.0
+-- users on ARM64 and Intel (macOS 12+) get latest FFmpeg from Riedl
+on install_ffmpeg_ffprobe(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os, user_system_arch, user_on_mid_os)
 	if user_system_arch is "Intel" then
-		install_ffmpeg_ffprobe_intel(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os)
+		if user_on_old_os is true then
+			install_ffmpeg_ffprobe_old_OS(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file)
+		else if user_on_mid_os is true then
+			install_ffmpeg_ffprobe_intel_OLD(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os)
+		else
+			install_ffmpeg_ffprobe_intel(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file)
+		end if
 	else
-		install_ffmpeg_ffprobe_arm(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os)
+		install_ffmpeg_ffprobe_arm(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file)
 	end if
 end install_ffmpeg_ffprobe
 
@@ -445,7 +462,7 @@ end install_ffmpeg_ffprobe
 ---------------------------------------------------
 
 -- Handler for installing FFmpeg and FFprobe - called by install_ffmpeg_ffprobe() - for users on Apple Silicon
-on install_ffmpeg_ffprobe_arm(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os)
+on install_ffmpeg_ffprobe_arm(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file)
 	set ffmpeg_site to "https://ffmpeg.martin-riedl.de"
 	set ffprobe_site to "https://ffmpeg.martin-riedl.de"
 	set FFmpeg_page to do shell script "curl " & ffmpeg_site & " | textutil -stdin -stdout -format html -convert txt -encoding UTF-8 "
@@ -529,7 +546,7 @@ end install_ffmpeg_ffprobe_arm
 ---------------------------------------------------
 
 -- Handler for installing FFmpeg and FFprobe - called by install_ffmpeg_ffprobe() - for users on Intel Macs
-on install_ffmpeg_ffprobe_intel(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os)
+on install_ffmpeg_ffprobe_intel(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file)
 	set ffmpeg_site to "https://ffmpeg.martin-riedl.de"
 	set ffprobe_site to "https://ffmpeg.martin-riedl.de"
 	set FFmpeg_page to do shell script "curl " & ffmpeg_site & " | textutil -stdin -stdout -format html -convert txt -encoding UTF-8 "
@@ -606,7 +623,80 @@ on install_ffmpeg_ffprobe_intel(theButtonOKLabel, diag_Title, path_to_MacYTDL, u
 	end if
 end install_ffmpeg_ffprobe_intel
 
--- Handler for installing FFmpeg and FFprobe - called by install_ffmpeg_ffprobe() - for users on Intel
+-- Handler for installing FFmpeg and FFprobe - called by install_ffmpeg_ffprobe() - for users on Intel using macOS 10.12 and earlier - can only use v6.0
+on install_ffmpeg_ffprobe_old_OS(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file)
+	set ffmpeg_version_new to "6.0"
+	set installAlertActionLabel to quoted form of "_"
+	set installAlertTitle to quoted form of (localized string "MacYTDL installation:" from table "MacYTDL")
+	set installAlertMessage to quoted form of (localized string "started.  Please wait." from table "MacYTDL")
+	set installAlertSubtitle to quoted form of (localized string "Download and install of FFmpeg" from table "MacYTDL")
+	do shell script quoted form of resourcesPath & "alerter -message " & installAlertMessage & " -title " & installAlertTitle & " -subtitle " & installAlertSubtitle & " -timeout 10 -sender com.apple.script.id.MacYTDL -actions " & installAlertActionLabel & " > /dev/null 2> /dev/null & "
+	set ffmpeg_download_file to quoted form of (usr_bin_folder & "ffmpeg-" & ffmpeg_version_new & ".zip")
+	try
+		set ignore_certifcates to ""
+		-- Use the ignore certificates "-k" parameter even tho it's probably not needed
+		-- Download latest FFmpeg zip file to usr/local/bin, unzip, fix permissions, rm zip file
+		set ffmpeg_download_URL to "https://evermeet.cx/pub/ffmpeg/ffmpeg-6.0.zip"
+		do shell script "curl -L " & ffmpeg_download_URL & " -k  -o " & ffmpeg_download_file with administrator privileges
+		do shell script "unzip -o " & ffmpeg_download_file & " -d " & usr_bin_folder with administrator privileges
+		do shell script "chmod a+x /usr/local/bin/ffmpeg" with administrator privileges
+		do shell script "rm " & ffmpeg_download_file with administrator privileges
+		set ffmpeg_version to ffmpeg_version_new
+	on error errStr number errorNumber
+		if errorNumber is -128 then
+			-- User cancels credentials dialog
+			try
+				do shell script "rm " & ffmpeg_download_file with administrator privileges
+			end try
+		else
+			-- trap any other kind of error including "Operation not permitted" and trap case in which zip file is not downloaded and saved
+			try
+				do shell script "rm " & ffmpeg_download_file with administrator privileges
+			end try
+			set theFFmpegInstallProblemTextLabel1 to localized string "There was a problem with installing FFmpeg. This was the error message: " in bundle file path_to_MacYTDL from table "MacYTDL"
+			set theFFmpegInstallProblemTextLabel2 to localized string "MacYTDL can't run and will have to quit. When you next start MacYTDL, it will try again to install FFmpeg." in bundle file path_to_MacYTDL from table "MacYTDL"
+			display dialog "" & errorNumber & " " & errStr & return & return & theFFmpegInstallProblemTextLabel2 buttons {theButtonOKLabel} default button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600
+		end if
+		error number -128
+	end try
+	set installAlertActionLabel to quoted form of "_"
+	set installAlertTitle to quoted form of (localized string "MacYTDL installation:" from table "MacYTDL")
+	set installAlertMessage to quoted form of (localized string "started.  Please wait." from table "MacYTDL")
+	set installAlertSubtitle to quoted form of (localized string "Download and install of FFprobe" from table "MacYTDL")
+	do shell script quoted form of resourcesPath & "alerter -message " & installAlertMessage & " -title " & installAlertTitle & " -subtitle " & installAlertSubtitle & " -timeout 10 -sender com.apple.script.id.MacYTDL -actions " & installAlertActionLabel & " > /dev/null 2> /dev/null & "
+	set ffprobe_version_new to ffmpeg_version_new
+	set ffprobe_download_file to quoted form of (usr_bin_folder & "ffprobe-" & ffprobe_version_new & ".zip")
+	set ignore_certifcates to ""
+	set ffprobe_download_URL to "https://evermeet.cx/pub/ffprobe/ffprobe-6.0.zip"
+	do shell script "curl -L " & ffprobe_download_URL & " -k -o " & ffprobe_download_file with administrator privileges
+	try
+		do shell script "unzip -o " & ffprobe_download_file & " -d " & usr_bin_folder with administrator privileges
+		do shell script "chmod a+x /usr/local/bin/ffprobe" with administrator privileges
+		do shell script "rm " & ffprobe_download_file with administrator privileges
+		set ffprobe_version to ffprobe_version_new
+	on error errStr number errorNumber
+		if errorNumber is -128 then
+			-- User cancels credentials dialog
+			try
+				do shell script "rm " & ffprobe_download_file with administrator privileges
+			end try
+		else
+			-- trap any other kind of error including "Operation not permitted"
+			try
+				do shell script "rm " & ffmpeg_download_file with administrator privileges
+			end try
+			set theFFProbeInstallProblemTextLabel1 to localized string "There was a problem with installing FFprobe. This was the error message: " in bundle file path_to_MacYTDL from table "MacYTDL"
+			set theFFProbeInstallProblemTextLabel2 to localized string "MacYTDL can't run and will have to quit. When you next start MacYTDL, it will try again to install FFprobe." in bundle file path_to_MacYTDL from table "MacYTDL"
+			display dialog theFFProbeInstallProblemTextLabel1 & errorNumber & " " & errStr & return & return & theFFProbeInstallProblemTextLabel2 buttons {theButtonOKLabel} default button 1 with title diag_Title with icon file MacYTDL_custom_icon_file giving up after 600
+		end if
+		error number -128
+	end try
+	--	end if
+end install_ffmpeg_ffprobe_old_OS
+
+
+-- Handler for installing FFmpeg and FFprobe - called by install_ffmpeg_ffprobe() - for users on Intel and macOS 10.14 and earlier
+-- No longer used - this installed wrong version of FFmpeg for users on 1010,1011 and 10.12
 on install_ffmpeg_ffprobe_intel_OLD(theButtonOKLabel, diag_Title, path_to_MacYTDL, usr_bin_folder, resourcesPath, MacYTDL_custom_icon_file, user_on_old_os)
 	set ffmpeg_site to "https://evermeet.cx/pub/ffmpeg/"
 	set ffprobe_site to "https://evermeet.cx/pub/ffprobe/"
@@ -935,7 +1025,7 @@ on update_MacYTDLservice(path_to_MacYTDL, MacYTDL_prefs_file, show_yt_dlp)
 					set DL_auto to value of property list item "Auto_Download"
 				end tell
 			end tell
-			-- v1.25 – took out yt-dlp-legacy to isolate Macs in 10.14 and lower
+			-- v1.25 – took out yt-dlp-legacy to isolate Macs in 10.14 and lower - because they cannot reliably update name of service in menu
 			-- if DL_auto is true and (show_yt_dlp is "yt-dlp" or show_yt_dlp is "yt-dlp-legacy") then
 			if DL_auto is true and show_yt_dlp is "yt-dlp" then
 				set new_value to "Download Video Now"
