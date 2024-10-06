@@ -2,12 +2,12 @@
 
 MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _YT-DLP_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. MacYTDL has been developed mostly in AppleScript. The code is not accessable from within the applet. However, text exports of the code are in the "Code" folder above and can be opened in _Script Editor_. MacYTDL is code signed and notarized.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.27.1/MacYTDL-v1.27.1.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.28/MacYTDL-v1.28.dmg).
 
 
 #### Main dailog
 
-<img src="https://github.com/section83/MacYTDL/blob/master/Images/Main%20-%20v1.27.png" width="480" height="374">
+<img src="https://github.com/section83/MacYTDL/blob/master/Images/Main%20-%20v1.28.png" width="480" height="374">
 
 ### Features
 
@@ -44,13 +44,13 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 
 An Apple Mac running macOS 10.10 Yosemite and higher is required to use MacYTDL. MacYTDL works in Parallels virtual machines.
 
-_YT-DLP_ is the default for all Macs. Python 3.8 is built into the _YT-DLP_ executable. However, Homebrew and MacPorts installs can be used. Detail is in the [Help](https://github.com/section83/MacYTDL/blob/master/Help.pdf).
+_YT-DLP_ is the default for all Macs. Python 3.10 is built into the _YT-DLP_ executable. However, Homebrew and MacPorts installs can be used. Detail is in the [Help](https://github.com/section83/MacYTDL/blob/master/Help.pdf).
 
 _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1.
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.27.1/MacYTDL-v1.27.1.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.28/MacYTDL-v1.28.dmg).
 * Browse the Help file.
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
@@ -61,7 +61,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1.
 
 ### How to update
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.27.1/MacYTDL-v1.27.1.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.28/MacYTDL-v1.28.dmg).
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
 
@@ -72,9 +72,9 @@ To report bugs, problems etc., get a Github account, click on the "Issues" tab a
 
 ### Acknowledgements
 
-MacYTDL would be useless without [youtube-dl](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp). They are remarkable, feature rich tools maintained by the most dedicated group of volunteers. It should be noted that [youtube-dl](https://github.com/ytdl-org/youtube-dl) has not been updated since December 2021. [_YT-DLP_](https://github.com/yt-dlp/yt-dlp), however, is in active development.
+MacYTDL would be useless without [youtube-dl](https://github.com/ytdl-org/youtube-dl) and [_YT-DLP_](https://github.com/yt-dlp/yt-dlp). They are remarkable, feature rich tools maintained by the most dedicated group of volunteers. It should be noted that there has not been a stable release of [youtube-dl](https://github.com/ytdl-org/youtube-dl) since December 2021. [_YT-DLP_](https://github.com/yt-dlp/yt-dlp), however, is in active development.
 
-Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus](https://latenightsw.com/support/freeware/) which provides the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
+Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus and Myriad Tables Lib](https://latenightsw.com/support/freeware/) which provide the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
 
 * Adam Albrec, author of PPC Media Centre.
 * Michael Page (http://techion.com.au), author of the Video Hoarder automator script.
@@ -83,7 +83,7 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 * “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader.
 * Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
 * Frank, Geoff, John, Santo, Trevor and Walter, fellow members of the [ACT Apple Users Group](https://www.actapple.org.au).
-* MacYTDL users 1alessandro1, 11lucasarr11, Adam, adenosslept, AirMarty, Alex, alphabitnz, Andrew H, Andy, andyrb412, Anjum, artcore-c, barney1903, Başar, BigJoe309, bovirus, Brandon, CdrSpock, CharlesLai0307, Chris, Dantha, darbid, defcon5at, Didier EuronymousDeadOhlin, EricTheDerek, frissonlabs, GrantGochnauer, gustavosaez, Hamza, heviiguy, hunterbr3193, Infinivibex , ItsMorePaul, Jack, JAKHIGDON, janvdvelde, jeremydouglass, kuglee, L-Kiewa, kuglee, Labhansh-Sharma, leon-chen-wen-jia, macmeister1967, LeonardoMaracino, macmeister1967, MalEbenSo, martinsstuff, meiwechner, Michel, michel-GH, Mike, mmaslar, mmicha, MrJmpl3, Nellio, nottooloud, onaforeignshore, pedrocadiz13, Peter, QAQDE, Rick, Raymond-Adams, roest01, Ruben, SwineBurglar, tabascoman77, Ted, Tenz14, thejasonparker, tht7, tigrr, Tobias, Tom, TomasCarlson, upekshapriya, Vinsamlegast78, watto23, williamcorney, Woolfy025, Yehushupat, zxzzz8.
+* MacYTDL users 1alessandro1, 11lucasarr11, Adam, adenosslept, AirMarty, Alex, alikaylan, alphabitnz, Andrew H, Andy, andyrb412, Anjum, artcore-c, barney1903, Başar, BigJoe309, bovirus, Brandon, CdrSpock, CharlesLai0307, comfortablemilk4454, Chris, Dantha, darbid, defcon5at, Didier EuronymousDeadOhlin, EricTheDerek, frissonlabs, GrantGochnauer, gustavosaez, Hamza, heviiguy, hunterbr3193, Infinivibex , ItsMorePaul, Jack, JAKHIGDON, janvdvelde, jeremydouglass, kuglee, L-Kiewa, kuglee, Labhansh-Sharma, leon-chen-wen-jia, macmeister1967, LeonardoMaracino, macmeister1967, MalEbenSo, martinsstuff, meiwechner, Michel, michel-GH, Mike, minkses, mmaslar, mmicha, MrJmpl3, Nellio, nottooloud, onaforeignshore, palomnik, pedrocadiz13, Peter, QAQDE, Rick, Raymond-Adams, roest01, Ruben, SwineBurglar, tabascoman77, Ted, Tenz14, thejasonparker, tht7, tigrr, Tobias, Tom, TomasCarlson, upekshapriya, Vinsamlegast78, watto23, williamcorney, Woolfy025, Yehushupat, zxzzz8.
 
 ### MacYTDL is free
 
