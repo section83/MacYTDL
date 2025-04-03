@@ -13,7 +13,7 @@ MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://git
 * Download individual videos and playlists.
 * Download multiple videos in separate processes, in one process (sequentially) or in one process (parallel).
    * Parallel downloading is available for playlists, multiple downloads, batches and _ABC iView_ and _SBS OnDemand_ (Australia)
-* Works with all sites supported by [_yt-dlp_](https://github.com/yt-dlp/yt-dlp).
+* Works with all sites supported by [_yt-dlp_](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md).
 * Can cancel individual downloads.
 * Can pause/resume downloads.
 * By default, will resume interrupted downloads if passed the URL.
