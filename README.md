@@ -2,7 +2,7 @@
 
 MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_yt-dlp_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _yt-dlp_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. MacYTDL has been developed mostly in AppleScript. The code is not accessable from within the applet. However, text exports of the code are in the "Code" folder above and can be opened in _Script Editor_. MacYTDL is code signed and notarized. Code signing ensures that the app has not been altered after it has been signed by the developer. Notarized apps have been scanned by Apple for known malware.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.29.1/MacYTDL-v1.29.1.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.29.2/MacYTDL-v1.29.2.dmg).
 
 #### Main dailog
 
@@ -51,7 +51,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1. Howev
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.29.1/MacYTDL-v1.29.1.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.29.2/MacYTDL-v1.29.2.dmg).
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
 * When asked, click on "Yes" to install various components and create a preferences folder.
@@ -61,7 +61,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1. Howev
 
 ### How to update
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.29.1/MacYTDL-v1.29.1.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.29.2/MacYTDL-v1.29.2.dmg).
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
 * There is a facility to download an update, if more recent, in "Utilities".
@@ -84,7 +84,7 @@ Much is owed to Shane Stanley, for his many contributions solving problems with 
 * “xplorr” (https://forum.videohelp.com/members/268051-xplorr), author of TVDownloader.
 * Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
 * Frank, Geoff, John, Santo, Trevor and Walter, fellow members of the [ACT Apple Users Group](https://www.actapple.org.au).
-* MacYTDL users 1alessandro1, 11lucasarr11, Adam, adam01212, adenosslept, AirMarty, Alex, Alex Luis, alikaylan, alphabitnz, Andy, andyrb412, Anjum, artcore-c, barney1903, Başar, BigJoe309, bovirus, Brandon, CdrSpock, CharlesLai0307, Chris, ComfortableMilk4454, Dantha, darbid, defcon5at, Didier EuronymousDeadOhlin, dragonlord66666, EricTheDerek, frissonlabs, froggyking3, Gábor Librecz, GrantGochnauer, gustavosaez, Hamza, heviiguy, hunterbr3193, Infinivibex , ItsMorePaul, Jack, JAKHIGDON, janvdvelde, JeanT, jeremydouglass, kuglee, L-Kiewa, kuglee, Labhansh-Sharma, leon-chen-wen-jia, LordB54, marksinclair1, macmeister1967, Labhansh-Sharma, LeonardoMaracino, macmeister1967, MalEbenSo, martinsstuff, meiwechner, michel-GH, Mike, minkses, mmaslar, mmicha, MrJmpl3, Nellio, nottooloud, onaforeignshore, palomnik, pedrocadiz13, Peter, QAQDE, Rick, Raymond-Adams, roest01, Ruben, SwineBurglar, tabascoman77, Ted, Tenz14, thejasonparker, tht7, tigrr, Tobias, Tom, TomasCarlson, upekshapriya, Vinsamlegast78, vorob1, watto23, williamcorney, Woolfy025, Yehushupat, zxzzz8.
+* MacYTDL users 1alessandro1, 11lucasarr11, Adam, adam01212, adenosslept, AirMarty, Alex, Alex Luis, alikaylan, alphabitnz, Andy, andyrb412, Anjum, Antaro, artcore-c, barney1903, Başar, Bohdan, BigJoe309, bovirus, Brandon, CdrSpock, CharlesLai0307, Chris, ComfortableMilk4454, Dantha, darbid, defcon5at, Didier EuronymousDeadOhlin, Dorkington, dragonlord66666, EricTheDerek, Fred B, frissonlabs, froggyking3, Gábor Librecz, GrantGochnauer, gustavosaez, Hamza, heviiguy, hunterbr3193, inb4ohnoes, Infinivibex, ItsMorePaul, lxne, Jack, JAKHIGDON, janvdvelde, JeanT, jeremydouglass, John E, Joshua, L-Kiewa, kuglee, Labhansh-Sharma, Labhansh-Sharma, leon-chen-wen-jia, LordB54, marksinclair1, macmeister1967, LeonardoMaracino, macmeister1967, MalEbenSo, Marius, martinsstuff, mcdiarmid1, meiwechner, michel-GH, Mike, minkses, mmaslar, mmicha, MrJmpl3, Nellio, nottooloud, onaforeignshore, palomnik, pedrocadiz13, Peter, QAQDE, Rick, Raymond-Adams, roest01, Ruben, Stephenzero, SwineBurglar, tabascoman77, Ted, Tenz14, thejasonparker, tht7, tigrr, Tobias, Tom, TomasCarlson, tryitagain, upekshapriya, Vinsamlegast78, vorob1, watto23, williamcorney, Woolfy025, Yehushupat, zxzzz8.
 
 ### MacYTDL is free
 
