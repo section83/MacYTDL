@@ -73,9 +73,11 @@ To report bugs, problems etc., get a Github account, click on the "Issues" tab a
 
 ### Acknowledgements
 
-MacYTDL would be useless without [youtube-dl](https://github.com/ytdl-org/youtube-dl) and [_yt-dlp_](https://github.com/yt-dlp/yt-dlp). They are remarkable, feature rich tools maintained by the most dedicated group of volunteers. It should be noted that there has not been a stable release of [youtube-dl](https://github.com/ytdl-org/youtube-dl) since December 2021. [_yt-dlp_](https://github.com/yt-dlp/yt-dlp), however, is in active development.
+MacYTDL would be useless without [_yt-dlp_](https://github.com/yt-dlp/yt-dlp). It is a remarkable, feature rich tool maintained by the most dedicated group of volunteers.
 
-Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus and Myriad Tables Lib](https://latenightsw.com/support/freeware/) which provide the dialogs in MacYTDL. Ideas for this GUI front-end came from many sources including:
+Much is owed to Shane Stanley, for his many contributions solving problems with MacYTDL. Shane developed [Dialog Toolkit Plus and Myriad Tables Lib](https://latenightsw.com/support/freeware/) which provide the dialogs in MacYTDL. MacYTDL is developed in [_Script Debugger_](https://latenightsw.com). Many thanks to Mark Alldritt and Shane for their 30 years of dedication to _SD_ and the _SD_ users. _SD_ will be sorely missed.
+
+Ideas for this GUI front-end came from many sources including:
 
 * Adam Albrec, author of PPC Media Centre.
 * Michael Page (http://techion.com.au), author of the Video Hoarder automator script.
