@@ -126,6 +126,7 @@ on run {monitor_pid, youtubedl_pid, MacYTDL_custom_icon_file_not_posix_monitor, 
 							exit repeat
 						end if
 						if find_paragraph contains " [download] 100% of " then
+							display notification "Downloading complete" with title "MacYTDL" icon MacYTDL_custom_icon_file_not_posix_monitor sound name "Beep"
 							exit repeat
 						end if
 					end repeat
