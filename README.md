@@ -1,5 +1,7 @@
 # MacYTDL
 
+**APOLOGIES – MacYTDL is barely functional in macOS Tahoe. It spends long amounts of time with the spinning wheel of death. Don't know how long this will take to fix.**
+
 MacYTDL is a utility which downloads videos using the [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) and [_yt-dlp_](https://github.com/yt-dlp/yt-dlp) video downloader scripts. _youtube-dl_ and _yt-dlp_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later. MacYTDL has been developed mostly in AppleScript. The code is not accessable from within the applet. However, text exports of the code are in the "Code" folder above and can be opened in _Script Editor_. MacYTDL is code signed and notarized. Code signing ensures that the app has not been altered after it has been signed by the developer. Notarized apps have been scanned by Apple for known malware.
 
 [Download from here](https://github.com/section83/MacYTDL/releases/download/1.29.2/MacYTDL-v1.29.2.dmg).
