@@ -2,7 +2,7 @@
 
 MacYTDL is a utility which downloads videos using the [_yt-dlp_](https://github.com/yt-dlp/yt-dlp) and [_youtube-dl_](https://github.com/ytdl-org/youtube-dl) video downloader scripts.  _yt-dlp_ and _youtube-dl_ are able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later and has been developed mostly in AppleScript. The key external conponents, _yt-dlp_, _FFmpeg_ and _Deno_, are installed by MacYTDL. The code is not accessable from within the applet. However, text exports of the code are in the "Code" folder above and can be opened in _Script Editor_. MacYTDL is code signed and notarized. Code signing ensures that the app has not been altered after it has been signed by the developer. Notarized apps have been scanned by Apple for known malware.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.29.3/MacYTDL-v1.29.3.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.30/MacYTDL-v1.30.dmg).
 
 #### Main dailog
 
@@ -51,7 +51,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1. Howev
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.29.3/MacYTDL-v1.29.3.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.30/MacYTDL-v1.30.dmg).
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
 * When asked, click on "Yes" to install various components and create a preferences folder.
@@ -61,7 +61,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1. Howev
 
 ### How to update
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.29.3/MacYTDL-v1.29.3.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.30/MacYTDL-v1.30.dmg).
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
 * There is a facility to download an update, if more recent, in "Utilities".
