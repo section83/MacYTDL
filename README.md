@@ -66,7 +66,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1. Howev
 * Open MacYTDL. Components such as the preferences file are updated as required.
 * There is a facility to download an update, if more recent, in "Utilities".
 
-More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/Help.pdf) (4.9MB).
+More detail is available in [the Help file](https://github.com/section83/MacYTDL/blob/master/Images/Help.pdf) (4.9MB).
 
 ### Bugs, problems, questions
 To report bugs, problems etc., get a Github account, click on the "Issues" tab above and open a new issue.  Alternatively, open an item in "Discussions" above or send an email to macytdl@gmail.com.
