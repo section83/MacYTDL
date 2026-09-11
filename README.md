@@ -25,7 +25,7 @@ MacYTDL is a utility which downloads videos using the [_yt-dlp_](https://github.
 * Download a text description of the video (if avaialable).
 * Option to choose from list of available download files (called "formats").
 * Switch between stable and nightly builds of _yt-dlp_.
-* Localisation – currently Spanish, Italian, French and German are available (switching languages is supported in macOS 10.15 and later).
+* Localisation – currently Spanish, Italian, French, German, Simplified Chinese (`zh-CN`) and Traditional Chinese (`zh-TW`) are available (switching languages is supported in macOS 10.15 and later).
   * Localisation is very out-of-date.
 * Download and embed subtitles in chosen format and language including auto-generated captions from YouTube.
 * Download and optionally embed thumbnail images and metadata.
