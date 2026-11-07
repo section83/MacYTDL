@@ -2,7 +2,7 @@
 
 MacYTDL is a utility which downloads videos using the [_yt-dlp_](https://github.com/yt-dlp/yt-dlp) video downloader script.  _yt-dlp_ is able to download videos from a great many web sites. MacYTDL runs on any Apple Mac with macOS 10.10 or later and has been developed mostly in AppleScript. The key external components, _yt-dlp_, _FFmpeg_ and _Deno_, are installed by MacYTDL. The code is not accessable from within the applet. However, text exports of the code are in the "Code" folder above and can be opened in _Script Editor_. MacYTDL itself and the MacYTDL-v1.31.2.dmg file are code signed and notarized. Code signing ensures that the app has not been altered after it has been signed by the developer. Notarized apps and images have been scanned by Apple for known malware.
 
-[Download from here](https://github.com/section83/MacYTDL/releases/download/1.31.2/MacYTDL-v1.31.2.dmg).
+[Download from here](https://github.com/section83/MacYTDL/releases/download/1.32/MacYTDL-v1.32.dmg).
 
 #### Main dailog
 
@@ -52,7 +52,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1. Howev
 
 ### How to install for the first time
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.31.2/MacYTDL-v1.31.2.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.32/MacYTDL-v1.32.dmg).
 * Click and drag MacYTDL to any location - it's best to use the Applications folder.
 * Open MacYTDL.
 * When asked, click on "Yes" to install various components and create a preferences folder.
@@ -63,7 +63,7 @@ _youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1. Howev
 
 ### How to update
 
-* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.31.2/MacYTDL-v1.31.2.dmg).
+* Download and open [the DMG file](https://github.com/section83/MacYTDL/releases/download/1.32/MacYTDL-v1.32.dmg).
 * Click and drag MacYTDL to your usual location – make sure to replace the old version.
 * Open MacYTDL. Components such as the preferences file are updated as required.
 * There is a facility to download an update, if more recent, in "Utilities".
@@ -88,7 +88,7 @@ Ideas for this GUI front-end came from many sources including:
 * MacYTDL user Michel who maintains contact from release to release providing early warning of bugs and Spanish language help.
 * Anonymous (https://cresstone.com/apps/youtubeDLFrontEnd/), author of youtubeDLFrontEnd.
 * Trevor, Tony, Frank, Peter, Geoff, John, Santo and Walter, fellow members of the [ACT Apple Users Group](https://www.actapple.org.au).
-* MacYTDL users: 1alessandro1, 11lucasarr11, Adam, adam01212, adenosslept, Adrenalyzer, Ashley, AirMarty, Alex, Alex Luis, alikaylan, alphabitnz, Andy, andyrb412, Anjum, Antaro, antdude, artcore-c, avcodex, barney1903, Başar, BobShuster, Bohdan, BigJoe309, bootyberry, bovirus, Brandon, CdrSpock, CharlesLai0307, Chris, clubizarre, ComfortableMilk4454, Dantha, darbid, defcon5at, Didier EuronymousDeadOhlin, Dorkington, dragonlord66666, EricTheDerek, Fred B, frissonlabs, froggyking3, Fun Jug, Gábor Librecz, Grady, GrantGochnauer, gustavosaez, Hamza, heviiguy, hunterbr3193, Hussain, iluvcrap2000, inb4ohnoes, Infinivibex, ItsMorePaul, lxne, Jack, JAKHIGDON, janvdvelde, JeanT, jeremydouglass, John @ TRIAL Media, John E, Joshua, L-Kiewa, kuglee, Labhansh-Sharma, Labhansh-Sharma, Larry, lebanggit, LeonardoMaracino, leon-chen-wen-jia, LordB54, lxne, marksinclair1, macmeister1967, macmeister1967, MalEbenSo, Marius, marksinclair1, martinbenny, martinsstuff, mcdiarmid1, meiwechner, michel-GH, Mihokas99, Mike, minkses, mmaslar, mmicha, MrJmpl3, Nellio, NorthEndVA, nottooloud, omppumetro, onaforeignshore, opartensky, palomnik, pedrocadiz13, Peter, QAQDE, Rick, Raymond-Adams, roelc500, roest01, Ruben, Scott, Stephenzero, SwineBurglar, tabascoman77, Ted, Tenz14, thejasonparker, tht7, tigrr, Tobias, Tom, TomasCarlson, tryitagain, upekshapriya, Vinsamlegast78, vorob1, watto23, williamcorney, Woolfy025, Yehushupat, zxzzz8.
+* MacYTDL users: 1alessandro1, 11lucasarr11, Adam, adam01212, adenosslept, Adrenalyzer, anthonyalayo, Ashley, AirMarty, Alex, Alex Luis, alikaylan, alphabitnz, Andy, andyrb412, Anjum, Antaro, antdude, artcore-c, avcodex, barney1903, Başar, BobShuster, Bohdan, BigJoe309, bootyberry, bovirus, Brandon, CdrSpock, CharlesLai0307, Chris, clubizarre, ComfortableMilk4454, Dantha, darbid, defcon5at, Didier EuronymousDeadOhlin, Dorkington, dragonlord66666, EricTheDerek, Fred B, frissonlabs, froggyking3, Fun Jug, Gábor Librecz, Grady, GrantGochnauer, gustavosaez, Hamza, heviiguy, hunterbr3193, Hussain, iluvcrap2000, inb4ohnoes, Infinivibex, ItsMorePaul, lxne, Jack, JAKHIGDON, janvdvelde, JeanT, jeremydouglass, John @ TRIAL Media, John E, Joshua, Kevin-413, kuglee, L-Kiewa, Labhansh-Sharma, Labhansh-Sharma, Larry, lebanggit, LeonardoMaracino, leon-chen-wen-jia, LordB54, lxne, marksinclair1, macmeister1967, macmeister1967, MalEbenSo, Marius, marksinclair1, martinbenny, martinsstuff, mcdiarmid1, meiwechner, michel-GH, Mihokas99, Mike, minkses, mmaslar, mmicha, MrJmpl3, Nellio, noimdan, NorthEndVA, nottooloud, omppumetro, onaforeignshore, opartensky, palomnik, pedrocadiz13, Peter, QAQDE, Rick, Raymond-Adams, roelc500, roest01, Ruben, Scott, Stephenzero, SwineBurglar, tabascoman77, Ted, Tenz14, thejasonparker, tht7, tigrr, Tobias, Tom, TomasCarlson, tryitagain, upekshapriya, VersionThis, Vinsamlegast78, virtuecho, vorob1, watto23, williamcorney, Woolfy025, Yehushupat, zhuojianlook, zxzzz8.
 
    Please forgive me if I’ve left you off this list.
 
