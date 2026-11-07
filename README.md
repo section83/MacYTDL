@@ -18,37 +18,37 @@ MacYTDL is a utility which downloads videos using the [_yt-dlp_](https://github.
 * Can pause/resume downloads.
 * By default, will resume interrupted downloads if passed the URL.
 * Can pass through any custom settings to _yt-dlp_.
-* Settings for level of _yt-dlp_ feedback, download folder, file format, remuxing format, download speed, proxy URL, Quicktime compatibility, custom file name template etc.
+* Settings for level of _yt-dlp_ feedback, download folder, file format, remuxing format, merge format, recoding, download speed, proxy URL, extract cookies, Quicktime compatibility, custom file name template etc.
 * Batch downloads.
 * Provides option for choosing episodes of shows available on _ABC iView_ (Australia).
 * PDF help file which describes how to use all features.
-* Download a text description of the video (if avaialable).
-* Option to choose from list of available download files (called "formats").
+* Download a text description of the video (if available).
+* Option to choose from list of available download files (called "formats") which can then be merged.
 * Switch between stable and nightly builds of _yt-dlp_.
-* Localisation – currently Spanish, Italian, French and German are available (switching languages is supported in macOS 10.15 and later).
-  * Localisation is very out-of-date.
+* Localisation – currently Spanish, traditional and simple Chinese, Italian, French and German are available (switching languages is supported in macOS 10.15 and later).
+  * Localisation for Italian, French and German is very out-of-date.
 * Download and embed subtitles in chosen format and language including auto-generated captions from YouTube.
 * Download and optionally embed thumbnail images and metadata.
-* Download or extract audio-only files in chosen format (conversion is done if necessary).
+* Download or extract audio-only files in chosen format (conversion is done automatically when necessary).
 * Optional macOS Service which gets the current text selection, clipboard contents or active web browser URL, switches to MacYTDL and pastes URL of video to be downloaded.
-* The Service can be set to automatically download from the URL of the current web page using current settings without showing the Main dialog.
+* The Service can be set to automatically download from the URL using current settings without showing the Main dialog.
 * Settings can be saved, restored and reset to default.
-* MacYTDL requires _yt-dlp_ and _FFmpeg_ which are downloaded and installed and can be updated by the app.
+* MacYTDL requires _yt-dlp_ and _FFmpeg_ which are downloaded and installed and can be updated by the app. This is controlled by the user.
   * Other components are bundled in MacYTDL.
   * _Deno_ is an optional but highly recommended install for downloads from _YouTube_.
-* Issues notification (via [*Alerter*](https://github.com/vjeantet/alerter)) when download finished with option to play the video.
+* Issues notifications (via [*Alerter*](https://github.com/vjeantet/alerter)) when downloads are finished with option to play videos in default player.
 * A separate log file is retained for each download enabling problem solving if a download fails.
-* Has a built-in uninstaller which moves all components for all users to Trash/Bin.
+* Has a built-in uninstaller which moves **all** components for all users to Trash/Bin.
 * Includes a range of simple utilities.
 * Uses arm64 or x86_64 code according to user's Mac.
 
 ### Requirements
 
-An Apple Mac running macOS 10.10 Yosemite and higher is required to use MacYTDL. A future version of MacYTDL, perhaps v1.32, will be restricted to macOS 10.15+. There are many limitations for users on versions of macOS prior to 10.15.
+An Apple Mac running macOS 10.10 Yosemite and higher is required to use MacYTDL. A future version of MacYTDL, perhaps v1.33, will be restricted to macOS 10.15+. There are **many** limitations in _yt-dlp_ for users on versions of macOS prior to 10.15.
 
 _yt-dlp_ is the default for all Macs. Python is supplied with the _yt-dlp_ executable. However, Homebrew and MacPorts installs can be used. Detail is in the [Help](https://github.com/section83/MacYTDL/blob/master/Images/Help.pdf).
 
-_youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1. However _youtube-dl_ has not been updated since December 2021 and so is out-of-date. Users on Macs running macOS 10.15 to 12.2.1 can switch between _youtube-dl_ and _yt-dlp_.
+_youtube-dl_ can be used with all versions of macOS up to Monterey 12.2.1. However _youtube-dl_ has not been updated since December 2021 and so is very out-of-date. Users on Macs running macOS 10.15 to 12.2.1 can switch from _youtube-dl_ to _yt-dlp_.
 
 ### How to install for the first time
 
