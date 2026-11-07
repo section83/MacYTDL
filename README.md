@@ -4,7 +4,7 @@ MacYTDL is a utility which downloads videos using the [_yt-dlp_](https://github.
 
 [Download from here](https://github.com/section83/MacYTDL/releases/download/1.32/MacYTDL-v1.32.dmg).
 
-#### Main dailog
+#### Main dialog
 
 <img src="https://github.com/section83/MacYTDL/blob/master/Images/Main.png" width="480" height="374">
 
